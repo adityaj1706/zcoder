@@ -1,3 +1,10 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -27,6 +34,35 @@
 .App-link {
   color: #61dafb;
 }
+/* App.css */
+
+.center-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+.problem-card {
+  background-color: var(--bg-light);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.dark .problem-card {
+  background-color: var(--bg-dark);
+  color: white;
+}
+
+
+.problem-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+:root {
+  --bg-light: #f3f4f6;
+  --bg-dark: #1f2937;
+}
+
 
 @keyframes App-logo-spin {
   from {
