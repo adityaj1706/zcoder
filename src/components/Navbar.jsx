@@ -9,6 +9,12 @@ const Navbar = () => {
         <Link to="/profile">Profile</Link>
         <Link to="/practice">Practice</Link>
         <Link to="/rooms">Rooms</Link>
+        <button
+          onClick={toggleTheme}
+          className="ml-4 px-3 py-1 rounded font-semibold bg-white text-blue-900 hover:bg-gray-200 transition"
+        >
+          {theme === "dark" ? "Light Mode" : "Dark Mode"}
+        </button>
       </div>
     </nav>
   );
