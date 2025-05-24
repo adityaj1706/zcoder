@@ -15,7 +15,7 @@ const Navbar = () => {
         <Link to="/rooms">Rooms</Link>
         <button
           onClick={toggleTheme}
-          className="ml-4 px-3 py-1 rounded font-semibold bg-white text-blue-900 hover:bg-gray-200 transition"
+          className="ml-4 px-3 py-1 rounded font-semibold bg-white text-blue-900 hover:bg-blue-950 transition"
         >
           {theme === "dark" ? "Light Mode" : "Dark Mode"}
         </button>
