@@ -3,7 +3,12 @@ module.exports = {
   content: ["./public/index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+    fontFamily: {
+      inter: ['Inter', 'sans-serif'],
+      sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+    },
+  },
   },
   plugins: [],
 };
