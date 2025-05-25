@@ -22,8 +22,10 @@ const Home = () => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center min-h-[80vh] transition-colors duration-300
-        ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}
+      className={`flex flex-col items-center justify-start pt-24 min-h-[80vh] transition-colors duration-300
+    ${
+      theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+    }`}
     >
       <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-blue-600 drop-shadow">
         Welcome to ZCoder
@@ -36,9 +38,11 @@ const Home = () => {
         <Link
           to="/editor"
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
-            ${theme === "dark"
-              ? "bg-gray-800 hover:bg-blue-900"
-              : "bg-white hover:bg-blue-100"}`}
+            ${
+              theme === "dark"
+                ? "bg-gray-800 hover:bg-blue-900"
+                : "bg-white hover:bg-blue-100"
+            }`}
         >
           <span className="text-2xl mb-2">💻</span>
           <span className="font-bold text-lg mb-1">Code Editor</span>
@@ -49,9 +53,11 @@ const Home = () => {
         <Link
           to="/rooms"
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
-            ${theme === "dark"
-              ? "bg-gray-800 hover:bg-blue-900"
-              : "bg-white hover:bg-blue-100"}`}
+            ${
+              theme === "dark"
+                ? "bg-gray-800 hover:bg-blue-900"
+                : "bg-white hover:bg-blue-100"
+            }`}
         >
           <span className="text-2xl mb-2">🗣️</span>
           <span className="font-bold text-lg mb-1">Interactive Rooms</span>
@@ -62,9 +68,11 @@ const Home = () => {
         <Link
           to="/profile"
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
-            ${theme === "dark"
-              ? "bg-gray-800 hover:bg-blue-900"
-              : "bg-white hover:bg-blue-100"}`}
+            ${
+              theme === "dark"
+                ? "bg-gray-800 hover:bg-blue-900"
+                : "bg-white hover:bg-blue-100"
+            }`}
         >
           <span className="text-2xl mb-2">👤</span>
           <span className="font-bold text-lg mb-1">Your Profile</span>
@@ -82,7 +90,11 @@ const Home = () => {
                 to="/editor"
                 state={{ problem: prob.title }}
                 className={`block p-4 rounded shadow transition hover:scale-[1.02] cursor-pointer
-                  ${theme === "dark" ? "bg-gray-800 hover:bg-blue-900" : "bg-white hover:bg-blue-100"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 hover:bg-blue-900"
+                      : "bg-white hover:bg-blue-100"
+                  }`}
               >
                 <div className="font-semibold text-lg">{prob.title}</div>
                 <div className="text-sm opacity-80">{prob.description}</div>
