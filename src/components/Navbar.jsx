@@ -13,6 +13,7 @@ const Navbar = () => {
         <Link to="/practice">Practice</Link>
         <Link to="/editor">Editor</Link>
         <Link to="/rooms">Rooms</Link>
+        <Link to="/problems">Problems Hub</Link>
         <button
           onClick={toggleTheme}
           className="ml-4 px-3 py-1 rounded font-semibold bg-white text-blue-900 hover:bg-blue-950 transition"

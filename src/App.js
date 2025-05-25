@@ -22,7 +22,13 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={theme === "dark" ? "dark bg-gray-900 text-white min-h-screen" : "bg-white text-gray-900 min-h-screen"}>
+      <div
+        className={
+          theme === "dark"
+            ? "dark bg-gray-900 text-white min-h-screen"
+            : "bg-white text-gray-900 min-h-screen"
+        }
+      >
         <Router>
           <Navbar />
           <Routes>
@@ -30,8 +36,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/practice" element={<div>Practice Page</div>} />
-            <Route path="/rooms" element={<Rooms />} /> {/* <-- Use the Rooms component */}
+            <Route path="/rooms" element={<Rooms />} />{" "}
+            {/* <-- Use the Rooms component */}
             <Route path="/editor" element={<Editor />} />
+            <Route path="/problems" element={<ProblemsHub />} />
+            <Route path="/problems/:id" element={<ProblemDetail />} />
           </Routes>
         </Router>
       </div>
