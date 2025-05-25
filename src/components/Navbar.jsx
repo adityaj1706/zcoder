@@ -5,7 +5,7 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="bg-blue-900 h-20 shadow-md flex items-center justify-between px-6">
+    <nav className="bg-blue-900 dark:bg-blue-950 h-20 shadow-md flex items-center justify-between px-6">
       <div className="text-white text-xl font-bold">ZCoder</div>
       <div className="flex items-center space-x-6 text-white text-sm">
         <Link to="/">Home</Link>
@@ -13,6 +13,7 @@ const Navbar = () => {
         <Link to="/practice">Practice</Link>
         <Link to="/editor">Editor</Link>
         <Link to="/rooms">Rooms</Link>
+        <Link to="/problems">Problems Hub</Link>
         <button
           onClick={toggleTheme}
           className="ml-4 px-3 py-1 rounded font-semibold bg-white text-blue-900 hover:bg-blue-950 transition"
