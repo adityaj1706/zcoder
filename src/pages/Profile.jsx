@@ -33,48 +33,47 @@ export default function Profile() {
   const progressPercent = Math.round((solvedCount / totalProblems) * 100);
 
   if (!user) {
-    return (
+  return (
+    <div
+      className={`flex flex-col items-center justify-center min-h-[60vh] transition-colors duration-300
+        ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}
+    >
       <div
-        className={`flex flex-col items-center justify-center min-h-[60vh] transition-colors duration-300
-        ${
-          theme === "dark"
-            ? "bg-gray-900 text-white"
-            : "bg-gray-100 text-gray-900"
-        }`}
+        className={`rounded-xl p-8 w-full max-w-md border transition-colors duration-300
+          ${theme === "dark"
+            ? "bg-[#1c1f26] text-white border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
+            : "bg-white text-gray-900 border-gray-200 shadow-lg"}`}
       >
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-semibold mb-4 text-center">
-            Sign Up / Log In
-          </h2>
-          <input
-            className={`border px-4 py-2 rounded mb-4 w-full outline-none transition-colors duration-300
-              ${
-                theme === "dark"
-                  ? "bg-gray-700 border-gray-600 text-white"
-                  : "bg-gray-50 border-gray-300 text-gray-900"
-              }`}
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <button
-            className="w-full bg-blue-900 text-white px-6 py-2 rounded hover:bg-blue-950 font-semibold transition"
-            onClick={handleLogin}
-          >
-            Continue
-          </button>
-        </div>
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up / Log In</h2>
+        <input
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none
+            ${theme === "dark"
+              ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+              : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+          placeholder="Enter your username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <button
+          className={`w-full font-semibold py-3 rounded-lg mt-4 transition-all
+            ${theme === "dark"
+              ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
+              : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"}`}
+          onClick={handleLogin}
+        >
+          Continue
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   return (
     <div
       className={`max-w-2xl mx-auto mt-12 p-6 rounded-lg shadow-lg transition-colors duration-300
       ${
-        theme === "dark"
-          ? "bg-gray-900 text-white"
-          : "bg-white text-gray-900"
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
       <div className="flex items-center mb-8">
