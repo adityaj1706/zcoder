@@ -2,23 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../App";
 
-const problems = [
+const contestLinks = [
   {
-    title: "Two Sum",
-    description: "Find indices of two numbers that add up to a target.",
+    name: "LeetCode Weekly Contest",
+    url: "https://leetcode.com/contest/",
+    icon: "🟧",
+    desc: "Official LeetCode weekly and biweekly contests.",
   },
   {
-    title: "Reverse Linked List",
-    description: "Reverse a singly linked list.",
+    name: "Codeforces Contests",
+    url: "https://codeforces.com/contests",
+    icon: "🟦",
+    desc: "Upcoming and past Codeforces contests.",
   },
   {
-    title: "Valid Parentheses",
-    description: "Check if parentheses are valid.",
+    name: "AtCoder Contests",
+    url: "https://atcoder.jp/contests/",
+    icon: "🟩",
+    desc: "Practice with AtCoder programming contests.",
   },
 ];
 
 const Home = () => {
-  const { theme } = useTheme();
+  const { theme,toggleTheme } = useTheme();
 
   return (
     <div
@@ -27,14 +33,17 @@ const Home = () => {
       theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
     }`}
     >
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-blue-600 drop-shadow">
-        Welcome to ZCoder
-      </h1>
+      <h1 className={`text-4xl md:text-5xl font-extrabold mb-4 drop-shadow ${
+  theme === "dark" ? "text-white" : "text-blue-900"
+}`}>
+  Welcome to ZCoder
+</h1>
       <p className="text-lg md:text-xl mb-8 text-center max-w-2xl">
         Practice coding problems, collaborate in real-time rooms, and track your
         progress — all in one place.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+      {/* Main Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
         <Link
           to="/editor"
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
@@ -81,27 +90,44 @@ const Home = () => {
           </span>
         </Link>
       </div>
-      <div className="w-full max-w-2xl mt-8">
-        <h2 className="text-2xl font-bold mb-4">Problems</h2>
-        <ul>
-          {problems.map((prob, idx) => (
-            <li key={idx} className="mb-4">
-              <Link
-                to="/editor"
-                state={{ problem: prob.title }}
-                className={`block p-4 rounded shadow transition hover:scale-[1.02] cursor-pointer
-                  ${
-                    theme === "dark"
-                      ? "bg-gray-800 hover:bg-blue-900"
-                      : "bg-white hover:bg-blue-100"
-                  }`}
-              >
-                <div className="font-semibold text-lg">{prob.title}</div>
-                <div className="text-sm opacity-80">{prob.description}</div>
-              </Link>
-            </li>
+      {/* Practice Contests Section */}
+      <div
+        className={`mt-12 w-full max-w-3xl rounded-xl shadow-lg p-8 transition
+          ${
+            theme === "dark"
+              ? "bg-gray-800 text-white"
+              : "bg-white text-gray-900"
+          }`}
+      >
+        <div className="flex items-center mb-4">
+          <span className="text-2xl mr-2">🏆</span>
+          <span className="font-bold text-xl">Practice Contests</span>
+        </div>
+        <p className="mb-4 text-sm">
+          Sharpen your skills with real contest problems from popular platforms:
+        </p>
+        <div className="flex flex-col gap-3">
+          {contestLinks.map((contest) => (
+            <a
+              key={contest.name}
+              href={contest.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium shadow transition
+                ${
+                  theme === "dark"
+                    ? "bg-blue-900 hover:bg-blue-800 text-white"
+                    : "bg-blue-100 hover:bg-blue-200 text-blue-900"
+                }`}
+            >
+              <span className="text-xl">{contest.icon}</span>
+              <span>
+                {contest.name}
+                <span className="block text-xs font-normal opacity-80">{contest.desc}</span>
+              </span>
+            </a>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
