@@ -4,6 +4,7 @@ import { useTheme } from "../App";
 export default function Profile() {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
@@ -36,12 +37,14 @@ export default function Profile() {
   // Mock signup handler
   const handleSignup = (e) => {
     e.preventDefault();
-    if (username.trim() && signupEmail.trim() && signupPassword.trim()) {
-      setUser({ name: username });
-      setUsername("");
-      setSignupEmail("");
-      setSignupPassword("");
-    }
+    if (name.trim() && username.trim() && signupEmail.trim() && signupPassword.trim()) {
+  setUser({ name }); // Use name instead of username
+  setName("");
+  setUsername("");
+  setSignupEmail("");
+  setSignupPassword("");
+}
+
   };
 
   // Calculate progress (example: total problems = 10)
@@ -117,6 +120,16 @@ export default function Profile() {
             <>
               <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
               <form onSubmit={handleSignup}>
+                <input
+                  className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
+                  ${theme === "dark"
+                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                />
                 <input
                   className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
                   ${theme === "dark"
