@@ -24,27 +24,77 @@ export default function Profile() {
     setBookmarkedProblems(bookmarks);
   }, []);
 
-  // Mock login handler
-  const handleLogin = (e) => {
+  // Updated login handler to send data to the backend
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (username.trim() && password.trim()) {
-      setUser({ name: username });
-      setUsername("");
-      setPassword("");
+      try {
+        const response = await fetch("/profile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setUser({ name: username });
+          setUsername("");
+          setPassword("");
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("An error occurred during login");
+      }
+    } else {
+      alert("Please enter both username and password");
     }
   };
 
   // Mock signup handler
-  const handleSignup = (e) => {
+  // Updated signup handler to send data to the backend
+  const handleSignup = async (e) => {
     e.preventDefault();
-    if (name.trim() && username.trim() && signupEmail.trim() && signupPassword.trim()) {
-  setUser({ name }); // Use name instead of username
-  setName("");
-  setUsername("");
-  setSignupEmail("");
-  setSignupPassword("");
-}
-
+    if (
+      name.trim() &&
+      username.trim() &&
+      signupEmail.trim() &&
+      signupPassword.trim()
+    ) {
+      try {
+        const response = await fetch("/profile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            name,
+            email: signupEmail,
+            password: signupPassword,
+          }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setUser({ name });
+          setName("");
+          setUsername("");
+          setSignupEmail("");
+          setSignupPassword("");
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Signup error:", error);
+        alert("An error occurred during signup");
+      }
+    } else {
+      alert("Please enter all required fields");
+    }
   };
 
   // Calculate progress (example: total problems = 10)
