@@ -29,7 +29,7 @@ export default function Profile() {
     e.preventDefault();
     if (username.trim() && password.trim()) {
       try {
-        const response = await fetch("/profile", {
+        const response = await fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export default function Profile() {
       signupPassword.trim()
     ) {
       try {
-        const response = await fetch("/profile", {
+        const response = await fetch("/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
