@@ -3,12 +3,18 @@ const chatDetails = require('../model/chats');
 const getChats = async (req,res)=>{
     try{
         const { user } = req.query;
-        const chats = await chatDetails.find({
-            $or: [
-                { sender: user },
-                { receiver: user }
-            ]
-        }).sort({ timestamp: 1 });
+        let chats;
+        if (user){
+            chats=await chatDetails.find({
+                $or: [
+                    {sender: user},
+                    {receiver: user}
+                ]
+            }).sort({ timestamp: 1 });
+        }
+        else{
+            chats = await chatDetails.find({}).sort({ timestamp: 1 });
+        }
         
         return res.status(200).json(chats);
     }
