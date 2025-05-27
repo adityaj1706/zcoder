@@ -18,24 +18,49 @@ export default function Profile() {
   const [bookmarkedProblems, setBookmarkedProblems] = useState([]);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+
     const bookmarks = JSON.parse(
       localStorage.getItem("bookmarkedProblems") || "[]"
     );
     setBookmarkedProblems(bookmarks);
   }, []);
 
-  // Mock login handler
-  const handleLogin = (e) => {
+  // Updated login handler to send data to the backend
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (username.trim() && password.trim()) {
-      setUser({ name: username });
-      setUsername("");
-      setPassword("");
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          const loggedInUser = { name: username };
+          setUser(loggedInUser);
+          localStorage.setItem("user", JSON.stringify(loggedInUser));
+          setUsername("");
+          setPassword("");
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("An error occurred during login");
+      }
+    } else {
+      alert("Please enter both username and password");
     }
   };
 
-  // Mock signup handler
-  const handleSignup = (e) => {
+  // Updated signup handler to send data to the backend
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (
       name.trim() &&
@@ -43,11 +68,38 @@ export default function Profile() {
       signupEmail.trim() &&
       signupPassword.trim()
     ) {
-      setUser({ name }); // Use name instead of username
-      setName("");
-      setUsername("");
-      setSignupEmail("");
-      setSignupPassword("");
+      try {
+        const response = await fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            name,
+            email: signupEmail,
+            password: signupPassword,
+          }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          const newUser = { name };
+          setUser(newUser);
+          localStorage.setItem("user", JSON.stringify(newUser));
+          setName("");
+          setUsername("");
+          setSignupEmail("");
+          setSignupPassword("");
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Signup error:", error);
+        alert("An error occurred during signup");
+      }
+    } else {
+      alert("Please enter all required fields");
     }
   };
 
@@ -59,12 +111,8 @@ export default function Profile() {
   if (!user) {
     return (
       <div
-        className={`flex flex-col items-center justify-center min-h-[80vh] transition-colors duration-300
-        ${
-          theme === "dark"
-            ? "bg-gray-900 text-white"
-            : "bg-gray-100 text-gray-900"
-        }`}
+        className={`flex flex-col items-center justify-center min-h-[60vh] transition-colors duration-300
+          ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}
       >
         <div
           className={`rounded-xl p-8 w-full max-w-md border transition-colors duration-300
@@ -216,9 +264,7 @@ export default function Profile() {
   return (
     <div
       className={`max-w-2xl mx-auto mt-12 p-6 rounded-lg shadow-lg transition-colors duration-300
-      ${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-      }`}
+      ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}
     >
       <div className="flex items-center mb-8">
         <div className="bg-blue-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-3xl font-bold mr-6 shadow">

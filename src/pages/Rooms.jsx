@@ -1,25 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
 import { useNavigate } from "react-router-dom";
 
 export default function Rooms() {
   const { theme } = useTheme();
   const navigate = useNavigate();
+
+  // Read logged in user from localStorage
+  const storedUser = localStorage.getItem("user");
+  const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
+
+  // Redirect to /profile if user is not logged in
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate("/profile");
+    }
+  }, [navigate, loggedInUser]);
+
   const [users] = useState([
     { name: "Alice", avatar: "🦉" },
     { name: "Bob", avatar: "🦁" },
     { name: "Charlie", avatar: "🐼" },
   ]);
-  const [messages, setMessages] = useState([
-    { user: "Alice", text: "Hi everyone!" },
-    { user: "Bob", text: "Hello Alice!" },
-  ]);
+  
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [muted, setMuted] = useState(false);
 
-  const handleSend = () => {
+  // Fetch chats from backend using logged in user query
+  const fetchChats = async () => {
+    try {
+      // Remove any query parameter so that all chats are returned
+      const response = await fetch("/api/rooms");
+      if (response.ok) {
+        const chats = await response.json();
+        setMessages(chats);
+      } else {
+        console.error("Error fetching chats");
+      }
+    } catch (error) {
+      console.error("Error fetching chats:", error);
+    }
+  };
+
+  // Fetch chats on component mount and every time logged in user changes.
+  useEffect(() => {
+    if (loggedInUser) {
+      fetchChats();
+    }
+  }, [loggedInUser]);
+
+  const handleSend = async () => {
     if (input.trim()) {
-      setMessages([...messages, { user: "You", text: input }]);
+      try {
+        // POST the new message to backend. Ensure your backend route matches.
+        const response = await fetch("/api/rooms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sender: loggedInUser.name,
+            message: input
+          }),
+        });
+        if (response.ok) {
+          // After sending, re-fetch chats to update the UI.
+          fetchChats();
+        } else {
+          alert("Error sending message");
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
       setInput("");
     }
   };
@@ -42,14 +95,14 @@ export default function Rooms() {
 
   return (
     <div
-      className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded shadow transition-colors duration-300
-        ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}
+      className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded shadow transition-colors duration-300 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
       style={{ minHeight: "70vh" }}
     >
       {/* Left Panel: Users & Options */}
       <div
-        className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col
-        ${
+        className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col ${
           theme === "dark"
             ? "bg-gray-950 border-gray-800"
             : "bg-gray-100 border-gray-200"
@@ -136,20 +189,19 @@ export default function Rooms() {
         >
           {messages.map((msg, idx) => (
             <div key={idx} className="mb-2">
-              <span className="font-bold">{msg.user}: </span>
-              <span>{msg.text}</span>
+              <span className="font-bold">{msg.sender}: </span>
+              <span>{msg.message}</span>
             </div>
           ))}
         </div>
         {/* Message Input */}
         <div className="flex">
           <input
-            className={`flex-1 px-4 py-2 rounded-l border outline-none transition-colors duration-300
-              ${
-                theme === "dark"
-                  ? "bg-gray-800 border-gray-700 text-white"
-                  : "bg-white border-gray-300 text-gray-900"
-              }`}
+            className={`flex-1 px-4 py-2 rounded-l border outline-none transition-colors duration-300 ${
+              theme === "dark"
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
+            }`}
             placeholder="Type a message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
