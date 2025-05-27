@@ -30,7 +30,8 @@ export default function Rooms() {
   // Fetch chats from backend using logged in user query
   const fetchChats = async () => {
     try {
-      const response = await fetch(`/api/rooms?user=${loggedInUser.name}`);
+      // Remove any query parameter so that all chats are returned
+      const response = await fetch("/api/rooms");
       if (response.ok) {
         const chats = await response.json();
         setMessages(chats);
