@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
 import { useNavigate } from "react-router-dom";
 
 export default function Rooms() {
   const { theme } = useTheme();
   const navigate = useNavigate();
+
+  // Redirect to /profile if user is not logged in
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      navigate("/profile");
+    }
+  }, [navigate]);
+
   const [users] = useState([
     { name: "Alice", avatar: "🦉" },
     { name: "Bob", avatar: "🦁" },
