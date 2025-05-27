@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
-import { useTheme } from "../App"; // Import the theme context
+import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "../App";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+
+  // Instead of using local state, read directly from localStorage
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    // Force a re-render by navigating to a different route and back if necessary
+    navigate("/profile"); // redirect to profile (login form)
+  };
 
   return (
     <nav className="bg-blue-900 dark:bg-blue-900 h-20 shadow-md flex items-center justify-between px-6">
@@ -22,6 +32,14 @@ const Navbar = () => {
         >
           {theme === "dark" ? "🔆Light" : "🌙Dark"}
         </button>
+        {user && (
+          <button
+            onClick={handleLogout}
+            className="ml-4 px-3 py-1 rounded font-semibold bg-red-600 text-white hover:bg-red-700 transition"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );
