@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const loginRoute = require('./routes/login-route');
+const loginRoute = require('./routes/routing');
 const path = require('path');
 const connectDB = require('./database/database');
 require('dotenv').config();
