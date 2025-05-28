@@ -4,11 +4,11 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-    fontFamily: {
-      inter: ['Inter', 'sans-serif'],
-      sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
+      },
     },
   },
-  },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

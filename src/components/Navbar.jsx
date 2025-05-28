@@ -22,8 +22,6 @@ const Navbar = () => {
       <div className="flex items-center space-x-6 text-white text-sm">
         <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>
-        {/* <Link to="/practice">Practice</Link> */}
-        <Link to="/editor">Editor</Link>
         <Link to="/rooms">Rooms</Link>
         <Link to="/problems">Problems Hub</Link>
         <button

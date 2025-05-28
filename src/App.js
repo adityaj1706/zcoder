@@ -46,7 +46,7 @@ function App() {
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/problems" element={<ProblemsHub />} />
-            <Route path="/problems/:id" element={<ProblemDetail />} />
+            <Route path="/problems/:id" element={<Editor />} />
           </Routes>
         </Router>
       </div>
