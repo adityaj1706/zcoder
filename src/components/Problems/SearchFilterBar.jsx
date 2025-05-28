@@ -1,4 +1,4 @@
-import { useTheme } from "../../App"; // Adjust path if needed
+import { useTheme } from "../../App"; 
 
 const SearchFilterBar = ({
   searchTerm,

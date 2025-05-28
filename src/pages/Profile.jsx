@@ -116,9 +116,11 @@ export default function Profile() {
       >
         <div
           className={`rounded-xl p-8 w-full max-w-md border transition-colors duration-300
-          ${theme === "dark"
-            ? "bg-[#1c1f26] text-white border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-            : "bg-white text-gray-900 border-gray-200 shadow-lg"}`}
+          ${
+            theme === "dark"
+              ? "bg-[#1c1f26] text-white border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
+              : "bg-white text-gray-900 border-gray-200 shadow-lg"
+          }`}
         >
           {authMode === "login" ? (
             <>
@@ -126,9 +128,11 @@ export default function Profile() {
               <form onSubmit={handleLogin}>
                 <input
                   className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -137,9 +141,11 @@ export default function Profile() {
                 <input
                   type="password"
                   className={`w-full px-4 py-3 rounded-lg border mb-2 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -164,9 +170,11 @@ export default function Profile() {
                 <button
                   type="submit"
                   className={`w-full font-semibold py-3 rounded-lg mt-2 transition-all
-                  ${theme === "dark"
-                    ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
-                    : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
+                      : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"
+                  }`}
                 >
                   Log In
                 </button>
@@ -178,9 +186,11 @@ export default function Profile() {
               <form onSubmit={handleSignup}>
                 <input
                   className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Full Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -188,9 +198,11 @@ export default function Profile() {
                 />
                 <input
                   className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -199,9 +211,11 @@ export default function Profile() {
                 <input
                   type="email"
                   className={`w-full px-4 py-3 rounded-lg border mb-4 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Email"
                   value={signupEmail}
                   onChange={(e) => setSignupEmail(e.target.value)}
@@ -210,9 +224,11 @@ export default function Profile() {
                 <input
                   type="password"
                   className={`w-full px-4 py-3 rounded-lg border mb-2 transition-all duration-200 focus:outline-none
-                  ${theme === "dark"
-                    ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
-                    : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white placeholder-gray-400 border-gray-600 focus:ring-2 focus:ring-blue-600"
+                      : "bg-gray-50 text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Create Password"
                   value={signupPassword}
                   onChange={(e) => setSignupPassword(e.target.value)}
@@ -230,9 +246,11 @@ export default function Profile() {
                 <button
                   type="submit"
                   className={`w-full font-semibold py-3 rounded-lg mt-2 transition-all
-                  ${theme === "dark"
-                    ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
-                    : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"}`}
+                  ${
+                    theme === "dark"
+                      ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
+                      : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"
+                  }`}
                 >
                   Sign Up
                 </button>
