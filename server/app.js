@@ -1,9 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const loginRoute = require('./routes/routing');
-const path = require('path');
-const connectDB = require('./database/database');
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const loginRoute = require("./routes/routing");
+const path = require("path");
+const connectDB = require("./database/database");
+require("dotenv").config();
 
 const app = express();
 
@@ -12,10 +12,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // API routes
-app.use('/', loginRoute);
+app.use("/", loginRoute);
+const problemsRoute = require("./routes/problems");
+app.use("/api/problems", problemsRoute);
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, "../build")));
 
 // Handle client-side routing
 
@@ -27,7 +29,7 @@ const start = async () => {
       console.log(`Server is listening on port ${port}...`);
     });
   } catch (error) {
-    console.error('Database connection failed:', error);
+    console.error("Database connection failed:", error);
   }
 };
 

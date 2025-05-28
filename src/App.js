@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProblemsHub from "./pages/Problems/ProblemsHub";
-import ProblemDetail from "./pages/Problems/ProblemDetail";
+
 import Editor from "./pages/editor";
 import Profile from "./pages/Profile";
 import Rooms from "./pages/Rooms";
@@ -46,7 +46,7 @@ function App() {
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/problems" element={<ProblemsHub />} />
-            <Route path="/problems/:id" element={<ProblemDetail />} />
+            <Route path="/problems/:id" element={<Editor />} />
           </Routes>
         </Router>
       </div>

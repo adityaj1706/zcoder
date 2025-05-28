@@ -1,0 +1,312 @@
+[
+  {
+    "id": "1",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "tags": [
+      "Array",
+      "Hash Table",
+      "Math"
+    ],
+    "description": "<p>Given an array of integers nums&nbsp;and an integer target, return indices of the two numbers such that they add up to target.</p>\r\n\r\n<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>\r\n\r\n<p>You can return the answer in any order.</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: nums = [2,7,11,15], target = 9\r\nOutput: [0,1]\r\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: nums = [3,2,4], target = 6\r\nOutput: [1,2]\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: nums = [3,3], target = 6\r\nOutput: [0,1]\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>2 &lt;= nums.length &lt;= 104</li>\r\n\t<li>-109 &lt;= nums[i] &lt;= 109</li>\r\n\t<li>-109 &lt;= target &lt;= 109</li>\r\n\t<li>Only one valid answer exists.</li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\nFollow-up:&nbsp;Can you come up with an algorithm that is less than O(n2)&nbsp;time complexity?",
+    "examples": [
+      {
+        "input": "</strong> nums = [2,7,11,15], target = 9\r\n<strong>",
+        "output": "</strong> [0,1]"
+      },
+      {
+        "input": "</strong> nums = [3,2,4], target = 6\r\n<strong>",
+        "output": "</strong> [1,2]"
+      },
+      {
+        "input": "</strong> nums = [3,3], target = 6\r\n<strong>",
+        "output": "</strong> [0,1]"
+      }
+    ],
+    "constraints": [
+      "2 <= nums.length <= 104",
+      "-109 <= nums[i] <= 109",
+      "-109 <= target <= 109",
+      "Only one valid answer exists."
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\r\n        m = {}\r\n        for i, x in enumerate(nums):\r\n            y = target - x\r\n            if y in m:\r\n                return [m[y], i]\r\n            m[x] = i"
+    }
+  },
+  {
+    "id": "2",
+    "title": "Add Two Numbers",
+    "difficulty": "Medium",
+    "tags": [
+      "Math"
+    ],
+    "description": "<p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum&nbsp;as a linked list.</p>\r\n\r\n<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n<img alt=\"\" src=\"https://spcdn.pages.dev/leetcode/problems/0002.Add%20Two%20Numbers/images/addtwonumber1.jpg\" style=\"width: 483px; height: 342px;\" />\r\n<pre>\r\nInput: l1 = [2,4,3], l2 = [5,6,4]\r\nOutput: [7,0,8]\r\nExplanation: 342 + 465 = 807.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: l1 = [0], l2 = [0]\r\nOutput: [0]\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]\r\nOutput: [8,9,9,9,0,0,0,1]\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>The number of nodes in each linked list is in the range [1, 100].</li>\r\n\t<li>0 &lt;= Node.val &lt;= 9</li>\r\n\t<li>It is guaranteed that the list represents a number that does not have leading zeros.</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> l1 = [2,4,3], l2 = [5,6,4]\r\n<strong>",
+        "output": "</strong> [7,0,8]"
+      },
+      {
+        "input": "</strong> l1 = [0], l2 = [0]\r\n<strong>",
+        "output": "</strong> [0]"
+      },
+      {
+        "input": "</strong> l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]\r\n<strong>",
+        "output": "</strong> [8,9,9,9,0,0,0,1]"
+      }
+    ],
+    "constraints": [
+      "The number of nodes in each linked list is in the range [1, 100].",
+      "0 <= Node.val <= 9",
+      "It is guaranteed that the list represents a number that does not have leading zeros."
+    ],
+    "solution": {
+      "python": "# Definition for singly-linked list.\r\n# class ListNode:\r\n#     def __init__(self, val=0, next=None):\r\n#         self.val = val\r\n#         self.next = next\r\nclass Solution:\r\n    def addTwoNumbers(\r\n        self, l1: Optional[ListNode], l2: Optional[ListNode]\r\n    ) -> Optional[ListNode]:\r\n        dummy = ListNode()\r\n        carry, curr = 0, dummy\r\n        while l1 or l2 or carry:\r\n            s = (l1.val if l1 else 0) + (l2.val if l2 else 0) + carry\r\n            carry, val = divmod(s, 10)\r\n            curr.next = ListNode(val)\r\n            curr = curr.next\r\n            l1 = l1.next if l1 else None\r\n            l2 = l2.next if l2 else None\r\n        return dummy.next"
+    }
+  },
+  {
+    "id": "3",
+    "title": "Longest Substring Without Repeating Characters",
+    "difficulty": "Medium",
+    "tags": [
+      "Strings",
+      "Hash Table"
+    ],
+    "description": "<p>Given a string s, find the length of the longest substring without repeating characters.</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: s = &quot;abcabcbb&quot;\r\nOutput: 3\r\nExplanation: The answer is &quot;abc&quot;, with the length of 3.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: s = &quot;bbbbb&quot;\r\nOutput: 1\r\nExplanation: The answer is &quot;b&quot;, with the length of 1.\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: s = &quot;pwwkew&quot;\r\nOutput: 3\r\nExplanation: The answer is &quot;wke&quot;, with the length of 3.\r\nNotice that the answer must be a substring, &quot;pwke&quot; is a subsequence and not a substring.\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>0 &lt;= s.length &lt;= 5 * 104</li>\r\n\t<li>s consists of English letters, digits, symbols and spaces.</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> s = &quot;abcabcbb&quot;\r\n<strong>",
+        "output": "</strong> 3"
+      },
+      {
+        "input": "</strong> s = &quot;bbbbb&quot;\r\n<strong>",
+        "output": "</strong> 1"
+      },
+      {
+        "input": "</strong> s = &quot;pwwkew&quot;\r\n<strong>",
+        "output": "</strong> 3"
+      }
+    ],
+    "constraints": [
+      "0 <= s.length <= 5 * 104",
+      "s consists of English letters, digits, symbols and spaces."
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def lengthOfLongestSubstring(self, s: str) -> int:\r\n        ss = set()\r\n        i = ans = 0\r\n        for j, c in enumerate(s):\r\n            while c in ss:\r\n                ss.remove(s[i])\r\n                i += 1\r\n            ss.add(c)\r\n            ans = max(ans, j - i + 1)\r\n        return ans"
+    }
+  },
+  {
+    "id": "4",
+    "title": "Median of Two Sorted Arrays",
+    "difficulty": "Hard",
+    "tags": [
+      "Array",
+      "Hash Table",
+      "Math"
+    ],
+    "description": "<p>Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.</p>\r\n\r\n<p>The overall run time complexity should be O(log (m+n)).</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: nums1 = [1,3], nums2 = [2]\r\nOutput: 2.00000\r\nExplanation: merged array = [1,2,3] and median is 2.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: nums1 = [1,2], nums2 = [3,4]\r\nOutput: 2.50000\r\nExplanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>nums1.length == m</li>\r\n\t<li>nums2.length == n</li>\r\n\t<li>0 &lt;= m &lt;= 1000</li>\r\n\t<li>0 &lt;= n &lt;= 1000</li>\r\n\t<li>1 &lt;= m + n &lt;= 2000</li>\r\n\t<li>-106 &lt;= nums1[i], nums2[i] &lt;= 106</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> nums1 = [1,3], nums2 = [2]\r\n<strong>",
+        "output": "</strong> 2.00000"
+      },
+      {
+        "input": "</strong> nums1 = [1,2], nums2 = [3,4]\r\n<strong>",
+        "output": "</strong> 2.50000"
+      }
+    ],
+    "constraints": [
+      "nums1.length == m",
+      "nums2.length == n",
+      "0 <= m <= 1000",
+      "0 <= n <= 1000",
+      "1 <= m + n <= 2000",
+      "-106 <= nums1[i], nums2[i] <= 106"
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\r\n        def f(i: int, j: int, k: int) -> int:\r\n            if i >= m:\r\n                return nums2[j + k - 1]\r\n            if j >= n:\r\n                return nums1[i + k - 1]\r\n            if k == 1:\r\n                return min(nums1[i], nums2[j])\r\n            p = k // 2\r\n            x = nums1[i + p - 1] if i + p - 1 < m else inf\r\n            y = nums2[j + p - 1] if j + p - 1 < n else inf\r\n            return f(i + p, j, k - p) if x < y else f(i, j + p, k - p)\r\n\r\n        m, n = len(nums1), len(nums2)\r\n        a = f(0, 0, (m + n + 1) // 2)\r\n        b = f(0, 0, (m + n + 2) // 2)\r\n        return (a + b) / 2"
+    }
+  },
+  {
+    "id": "5",
+    "title": "Longest Palindromic Substring",
+    "difficulty": "Medium",
+    "tags": [
+      "Strings",
+      "Hash Table"
+    ],
+    "description": "<p>Given a string s, return the longest palindromic substring in s.</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: s = &quot;babad&quot;\r\nOutput: &quot;bab&quot;\r\nExplanation: &quot;aba&quot; is also a valid answer.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: s = &quot;cbbd&quot;\r\nOutput: &quot;bb&quot;\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>1 &lt;= s.length &lt;= 1000</li>\r\n\t<li>s consist of only digits and English letters.</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> s = &quot;babad&quot;\r\n<strong>",
+        "output": "</strong> &quot;bab&quot;"
+      },
+      {
+        "input": "</strong> s = &quot;cbbd&quot;\r\n<strong>",
+        "output": "</strong> &quot;bb&quot;"
+      }
+    ],
+    "constraints": [
+      "1 <= s.length <= 1000",
+      "s consist of only digits and English letters."
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def longestPalindrome(self, s: str) -> str:\r\n        n = len(s)\r\n        f = [[True] * n for _ in range(n)]\r\n        k, mx = 0, 1\r\n        for i in range(n - 2, -1, -1):\r\n            for j in range(i + 1, n):\r\n                f[i][j] = False\r\n                if s[i] == s[j]:\r\n                    f[i][j] = f[i + 1][j - 1]\r\n                    if f[i][j] and mx < j - i + 1:\r\n                        k, mx = i, j - i + 1\r\n        return s[k : k + mx]"
+    }
+  },
+  {
+    "id": "6",
+    "title": "Zigzag Conversion",
+    "difficulty": "Medium",
+    "tags": [
+      "Hash Table",
+      "Math",
+      "Strings"
+    ],
+    "description": "<p>The string &quot;PAYPALISHIRING&quot; is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>\r\n\r\n<pre>\r\nP   A   H   N\r\nA P L S I I G\r\nY   I   R\r\n</pre>\r\n\r\n<p>And then read line by line: &quot;PAHNAPLSIIGYIR&quot;</p>\r\n\r\n<p>Write the code that will take a string and make this conversion given a number of rows:</p>\r\n\r\n<pre>\r\nstring convert(string s, int numRows);\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: s = &quot;PAYPALISHIRING&quot;, numRows = 3\r\nOutput: &quot;PAHNAPLSIIGYIR&quot;\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: s = &quot;PAYPALISHIRING&quot;, numRows = 4\r\nOutput: &quot;PINALSIGYAHRPI&quot;\r\nExplanation:\r\nP     I    N\r\nA   L S  I G\r\nY A   H R\r\nP     I\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: s = &quot;A&quot;, numRows = 1\r\nOutput: &quot;A&quot;\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>1 &lt;= s.length &lt;= 1000</li>\r\n\t<li>s consists of English letters (lower-case and upper-case), &#39;,&#39; and &#39;.&#39;.</li>\r\n\t<li>1 &lt;= numRows &lt;= 1000</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 3\r\n<strong>",
+        "output": "</strong> &quot;PAHNAPLSIIGYIR&quot;"
+      },
+      {
+        "input": "</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 4\r\n<strong>",
+        "output": "</strong> &quot;PINALSIGYAHRPI&quot;"
+      },
+      {
+        "input": "</strong> s = &quot;A&quot;, numRows = 1\r\n<strong>",
+        "output": "</strong> &quot;A&quot;"
+      }
+    ],
+    "constraints": [
+      "1 <= s.length <= 1000",
+      "s consists of English letters (lower-case and upper-case), &#39;,&#39; and &#39;.&#39;.",
+      "1 <= numRows <= 1000"
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def convert(self, s: str, numRows: int) -> str:\r\n        if numRows == 1:\r\n            return s\r\n        g = [[] for _ in range(numRows)]\r\n        i, k = 0, -1\r\n        for c in s:\r\n            g[i].append(c)\r\n            if i == 0 or i == numRows - 1:\r\n                k = -k\r\n            i += k\r\n        return ''.join(chain(*g))"
+    }
+  },
+  {
+    "id": "7",
+    "title": "Reverse Integer",
+    "difficulty": "Medium",
+    "tags": [
+      "Array",
+      "Math"
+    ],
+    "description": "<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.</p>\r\n\r\n<p>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: x = 123\r\nOutput: 321\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: x = -123\r\nOutput: -321\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: x = 120\r\nOutput: 21\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>-231 &lt;= x &lt;= 231 - 1</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> x = 123\r\n<strong>",
+        "output": "</strong> 321"
+      },
+      {
+        "input": "</strong> x = -123\r\n<strong>",
+        "output": "</strong> -321"
+      },
+      {
+        "input": "</strong> x = 120\r\n<strong>",
+        "output": "</strong> 21"
+      }
+    ],
+    "constraints": [
+      "-231 <= x <= 231 - 1"
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def reverse(self, x: int) -> int:\r\n        ans = 0\r\n        mi, mx = -(2**31), 2**31 - 1\r\n        while x:\r\n            if ans < mi // 10 + 1 or ans > mx // 10:\r\n                return 0\r\n            y = x % 10\r\n            if x < 0 and y > 0:\r\n                y -= 10\r\n            ans = ans * 10 + y\r\n            x = (x - y) // 10\r\n        return ans"
+    }
+  },
+  {
+    "id": "8",
+    "title": "String to Integer (atoi)",
+    "difficulty": "Medium",
+    "tags": [
+      "Hash Table",
+      "Math"
+    ],
+    "description": "<p>Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++&#39;s atoi function).</p>\r\n\r\n<p>The algorithm for myAtoi(string s) is as follows:</p>\r\n\r\n\r\n\t<li>Read in and ignore any leading whitespace.</li>\r\n\t<li>Check if the next character (if not already at the end of the string) is &#39;-&#39; or &#39;+&#39;. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.</li>\r\n\t<li>Read in next the characters until the next non-digit character or the end of the input is reached. The rest of the string is ignored.</li>\r\n\t<li>Convert these digits into an integer (i.e. &quot;123&quot; -&gt; 123, &quot;0032&quot; -&gt; 32). If no digits were read, then the integer is 0. Change the sign as necessary (from step 2).</li>\r\n\t<li>If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then clamp the integer so that it remains in the range. Specifically, integers less than -231 should be clamped to -231, and integers greater than 231 - 1 should be clamped to 231 - 1.</li>\r\n\t<li>Return the integer as the final result.</li>\r\n\r\n\r\n<p>Note:</p>\r\n\r\n<ul>\r\n\t<li>Only the space character &#39; &#39; is considered a whitespace character.</li>\r\n\t<li>Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.</li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: s = &quot;42&quot;\r\nOutput: 42\r\nExplanation: The underlined characters are what is read in, the caret is the current reader position.\r\nStep 1: &quot;42&quot; (no characters read because there is no leading whitespace)\r\n         ^\r\nStep 2: &quot;42&quot; (no characters read because there is neither a &#39;-&#39; nor &#39;+&#39;)\r\n         ^\r\nStep 3: &quot;42&quot; (&quot;42&quot; is read in)\r\n           ^\r\nThe parsed integer is 42.\r\nSince 42 is in the range [-231, 231 - 1], the final result is 42.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: s = &quot;   -42&quot;\r\nOutput: -42\r\nExplanation:\r\nStep 1: &quot;   -42&quot; (leading whitespace is read and ignored)\r\n            ^\r\nStep 2: &quot;   -42&quot; (&#39;-&#39; is read, so the result should be negative)\r\n             ^\r\nStep 3: &quot;   -42&quot; (&quot;42&quot; is read in)\r\n               ^\r\nThe parsed integer is -42.\r\nSince -42 is in the range [-231, 231 - 1], the final result is -42.\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: s = &quot;4193 with words&quot;\r\nOutput: 4193\r\nExplanation:\r\nStep 1: &quot;4193 with words&quot; (no characters read because there is no leading whitespace)\r\n         ^\r\nStep 2: &quot;4193 with words&quot; (no characters read because there is neither a &#39;-&#39; nor &#39;+&#39;)\r\n         ^\r\nStep 3: &quot;4193 with words&quot; (&quot;4193&quot; is read in; reading stops because the next character is a non-digit)\r\n             ^\r\nThe parsed integer is 4193.\r\nSince 4193 is in the range [-231, 231 - 1], the final result is 4193.\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>0 &lt;= s.length &lt;= 200</li>\r\n\t<li>s consists of English letters (lower-case and upper-case), digits (0-9), &#39; &#39;, &#39;+&#39;, &#39;-&#39;, and &#39;.&#39;.</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> s = &quot;42&quot;\r\n<strong>",
+        "output": "</strong> 42"
+      },
+      {
+        "input": "</strong> s = &quot;   -42&quot;\r\n<strong>",
+        "output": "</strong> -42"
+      },
+      {
+        "input": "</strong> s = &quot;4193 with words&quot;\r\n<strong>",
+        "output": "</strong> 4193"
+      }
+    ],
+    "constraints": [
+      "Only the space character &#39; &#39; is considered a whitespace character.",
+      "Do not ignore any characters other than the leading whitespace or the rest of the string after the digits."
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def myAtoi(self, s: str) -> int:\r\n        if not s:\r\n            return 0\r\n        n = len(s)\r\n        if n == 0:\r\n            return 0\r\n        i = 0\r\n        while s[i] == ' ':\r\n            i += 1\r\n            # 仅包含空格\r\n            if i == n:\r\n                return 0\r\n        sign = -1 if s[i] == '-' else 1\r\n        if s[i] in ['-', '+']:\r\n            i += 1\r\n        res, flag = 0, (2**31 - 1) // 10\r\n        while i < n:\r\n            # 非数字，跳出循环体\r\n            if not s[i].isdigit():\r\n                break\r\n            c = int(s[i])\r\n            # 溢出判断\r\n            if res > flag or (res == flag and c > 7):\r\n                return 2**31 - 1 if sign > 0 else -(2**31)\r\n            res = res * 10 + c\r\n            i += 1\r\n        return sign * res"
+    }
+  },
+  {
+    "id": "9",
+    "title": "Palindrome Number",
+    "difficulty": "Easy",
+    "tags": [
+      "Hash Table",
+      "Math"
+    ],
+    "description": "<p>Given an integer x, return true if x is a palindrome, and false otherwise.</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: x = 121\r\nOutput: true\r\nExplanation: 121 reads as 121 from left to right and from right to left.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: x = -121\r\nOutput: false\r\nExplanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: x = 10\r\nOutput: false\r\nExplanation: Reads 01 from right to left. Therefore it is not a palindrome.\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>-231&nbsp;&lt;= x &lt;= 231&nbsp;- 1</li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\nFollow up: Could you solve it without converting the integer to a string?",
+    "examples": [
+      {
+        "input": "</strong> x = 121\r\n<strong>",
+        "output": "</strong> true"
+      },
+      {
+        "input": "</strong> x = -121\r\n<strong>",
+        "output": "</strong> false"
+      },
+      {
+        "input": "</strong> x = 10\r\n<strong>",
+        "output": "</strong> false"
+      }
+    ],
+    "constraints": [
+      "-231 <= x <= 231 - 1"
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def isPalindrome(self, x: int) -> bool:\r\n        if x < 0 or (x and x % 10 == 0):\r\n            return False\r\n        y = 0\r\n        while y < x:\r\n            y = y * 10 + x % 10\r\n            x //= 10\r\n        return x in (y, y // 10)"
+    }
+  },
+  {
+    "id": "10",
+    "title": "Regular Expression Matching",
+    "difficulty": "Hard",
+    "tags": [
+      "Strings",
+      "DP"
+    ],
+    "description": "<p>Given an input string s&nbsp;and a pattern p, implement regular expression matching with support for &#39;.&#39; and &#39;*&#39; where:</p>\r\n\r\n<ul>\r\n\t<li>&#39;.&#39; Matches any single character.​​​​</li>\r\n\t<li>&#39;*&#39; Matches zero or more of the preceding element.</li>\r\n</ul>\r\n\r\n<p>The matching should cover the entire input string (not partial).</p>\r\n\r\n<p>&nbsp;</p>\r\n<p>Example 1:</p>\r\n\r\n<pre>\r\nInput: s = &quot;aa&quot;, p = &quot;a&quot;\r\nOutput: false\r\nExplanation: &quot;a&quot; does not match the entire string &quot;aa&quot;.\r\n</pre>\r\n\r\n<p>Example 2:</p>\r\n\r\n<pre>\r\nInput: s = &quot;aa&quot;, p = &quot;a*&quot;\r\nOutput: true\r\nExplanation: &#39;*&#39; means zero or more of the preceding element, &#39;a&#39;. Therefore, by repeating &#39;a&#39; once, it becomes &quot;aa&quot;.\r\n</pre>\r\n\r\n<p>Example 3:</p>\r\n\r\n<pre>\r\nInput: s = &quot;ab&quot;, p = &quot;.*&quot;\r\nOutput: true\r\nExplanation: &quot;.*&quot; means &quot;zero or more (*) of any character (.)&quot;.\r\n</pre>\r\n\r\n<p>&nbsp;</p>\r\n<p>Constraints:</p>\r\n\r\n<ul>\r\n\t<li>1 &lt;= s.length&nbsp;&lt;= 20</li>\r\n\t<li>1 &lt;= p.length&nbsp;&lt;= 20</li>\r\n\t<li>s contains only lowercase English letters.</li>\r\n\t<li>p contains only lowercase English letters, &#39;.&#39;, and&nbsp;&#39;*&#39;.</li>\r\n\t<li>It is guaranteed for each appearance of the character &#39;*&#39;, there will be a previous valid character to match.</li>\r\n</ul>",
+    "examples": [
+      {
+        "input": "</strong> s = &quot;aa&quot;, p = &quot;a&quot;\r\n<strong>",
+        "output": "</strong> false"
+      },
+      {
+        "input": "</strong> s = &quot;aa&quot;, p = &quot;a*&quot;\r\n<strong>",
+        "output": "</strong> true"
+      },
+      {
+        "input": "</strong> s = &quot;ab&quot;, p = &quot;.*&quot;\r\n<strong>",
+        "output": "</strong> true"
+      }
+    ],
+    "constraints": [
+      "&#39;.&#39; Matches any single character.​​​​",
+      "&#39;*&#39; Matches zero or more of the preceding element."
+    ],
+    "solution": {
+      "python": "class Solution:\r\n    def isMatch(self, s: str, p: str) -> bool:\r\n        @cache\r\n        def dfs(i, j):\r\n            if j >= n:\r\n                return i == m\r\n            if j + 1 < n and p[j + 1] == '*':\r\n                return dfs(i, j + 2) or (\r\n                    i < m and (s[i] == p[j] or p[j] == '.') and dfs(i + 1, j)\r\n                )\r\n            return i < m and (s[i] == p[j] or p[j] == '.') and dfs(i + 1, j + 1)\r\n\r\n        m, n = len(s), len(p)\r\n        return dfs(0, 0)"
+    }
+  }
+]
