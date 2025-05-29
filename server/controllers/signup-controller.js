@@ -1,4 +1,5 @@
 const signupDetails = require('../model/signup');
+const userStatsDetails = require('../model/userstats');
 
 const signup = async (req, res) => {
     try {
@@ -14,6 +15,12 @@ const signup = async (req, res) => {
                 password: password
             });
             await newUser.save();
+            const newUserStats = new userStatsDetails({
+                username: username,
+                bookmarks: [],
+                solved: []
+            });
+            await newUserStats.save();
             return res.status(201).json({ message: 'Signup successful' });
         }
     } catch (error) {

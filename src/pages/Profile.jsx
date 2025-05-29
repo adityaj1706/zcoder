@@ -27,6 +27,25 @@ export default function Profile() {
     setBookmarkedProblems(bookmarks);
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      const fetchUserStats = async () => {
+        try {
+          const res = await fetch(`/api/userstats?user=${user.name}`);
+          const data = await res.json();
+          // Assume your backend returns { solved: [...], bookmarks: [...] }
+          setSolvedProblems(data.solved || []);
+          setBookmarkedProblems(data.bookmarks || []);
+        } catch (err) {
+          console.error("Error fetching user stats:", err);
+        }
+      };
+      fetchUserStats();
+      const intervalId = setInterval(fetchUserStats, 5000); // Poll every 5 seconds
+      return () => clearInterval(intervalId);
+    }
+  }, [user]);
+
   // Updated login handler to send data to the backend
   const handleLogin = async (e) => {
     e.preventDefault();
