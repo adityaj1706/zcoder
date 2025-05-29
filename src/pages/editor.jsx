@@ -20,7 +20,11 @@ int main() {
   const [solved, setSolved] = useState(false);
 
   const [problem, setProblem] = useState(location.state?.problem || null);
-
+  const storedUser = localStorage.getItem("user");
+  const userData = storedUser ? JSON.parse(storedUser) : null;
+  // Build user-specific keys. If no user, use default keys.
+  const bookmarkKey = userData ? `bookmarkedProblems_${userData.name}` : "bookmarkedProblems";
+  const solvedKey = userData ? `solvedProblems_${userData.name}` : "solvedProblems";
   // Fetch problem if not in navigation state
   useEffect(() => {
     if (!problem && id) {
@@ -32,51 +36,78 @@ int main() {
   }, [id, problem]);
 
   useEffect(() => {
-    if (!problem) return;
-    const solvedProblems = JSON.parse(
-      localStorage.getItem("solvedProblems") || "[]"
-    );
-    setSolved(solvedProblems.includes(problem.title));
-  }, [problem?.title]);
-
-  // Check if current problem is bookmarked on mount or when problem changes
-  useEffect(() => {
-    if (!problem) return;
-    const bookmarks = JSON.parse(
-      localStorage.getItem("bookmarkedProblems") || "[]"
-    );
-    setBookmarked(bookmarks.includes(problem.title));
-  }, [problem?.title]);
+      const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
+      setBookmarked(bookmarks.includes(problem.title));
+  
+      const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
+      setSolved(solvedProblems.includes(problem.title));
+    }, [problem.title, bookmarkKey, solvedKey]);
 
   // Toggle bookmark
-  const toggleBookmark = () => {
-    if (!problem) return;
-    let bookmarks = JSON.parse(
-      localStorage.getItem("bookmarkedProblems") || "[]"
-    );
+  const toggleBookmark = async (e) => {
+    e.preventDefault(); // Prevent navigating when clicking the button
+    if (!userData) return; // Only allow logged-in users
+    let bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
+    let action = "";
     if (bookmarks.includes(problem.title)) {
+      // Remove bookmark
       bookmarks = bookmarks.filter((p) => p !== problem.title);
       setBookmarked(false);
+      action = "remove";
     } else {
+      // Add bookmark
       bookmarks.push(problem.title);
       setBookmarked(true);
+      action = "add";
     }
-    localStorage.setItem("bookmarkedProblems", JSON.stringify(bookmarks));
+    localStorage.setItem(bookmarkKey, JSON.stringify(bookmarks));
+
+    // Update bookmarks in user stats backend
+    try {
+      await fetch(`/api/userstats?user=${userData.name}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookmarks: problem.title,
+          action: action,
+        }),
+      });
+    } catch (err) {
+      console.error("Error updating user stats for bookmarks", err);
+    }
   };
 
-  const toggleSolved = () => {
-    if (!problem) return;
-    let solvedProblems = JSON.parse(
-      localStorage.getItem("solvedProblems") || "[]"
-    );
+  const toggleSolved = async (e) => {
+    e.preventDefault(); // Prevent default link navigation
+    if (!userData) return; // Only allow logged-in users
+    let solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
+    let action = "";
     if (solvedProblems.includes(problem.title)) {
+      // Remove solved problem
       solvedProblems = solvedProblems.filter((p) => p !== problem.title);
       setSolved(false);
+      action = "remove";
     } else {
+      // Add solved problem
       solvedProblems.push(problem.title);
       setSolved(true);
+      action = "add";
     }
-    localStorage.setItem("solvedProblems", JSON.stringify(solvedProblems));
+    localStorage.setItem(solvedKey, JSON.stringify(solvedProblems));
+
+    // Update solved in user stats backend
+    try {
+      await fetch(`/api/userstats?user=${userData.name}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          solved: problem.title,
+          action: action,
+        }),
+      });
+    } catch (err) {
+      console.error("Error updating user stats for solved", err);
+    }
   };
 
   // Note: C++ code execution is not supported in-browser
