@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const loginRoute = require("./routes/routing");
+const allRoutes = require("./routes/routing");
 const path = require("path");
 const connectDB = require("./database/database");
 require("dotenv").config();
@@ -12,9 +12,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // API routes
-app.use("/", loginRoute);
-const problemsRoute = require("./routes/problems");
-app.use("/api/problems", problemsRoute);
+app.use("/", allRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "../build")));
