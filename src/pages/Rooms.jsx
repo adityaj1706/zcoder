@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 export default function Rooms() {
   const { theme } = useTheme();
@@ -27,10 +28,9 @@ export default function Rooms() {
   const [input, setInput] = useState("");
   const [muted, setMuted] = useState(false);
 
-  // Fetch chats from backend using logged in user query
+  // Fetch chats from backend (on mount and when loggedInUser changes)
   const fetchChats = async () => {
     try {
-      // Remove any query parameter so that all chats are returned
       const response = await fetch("/api/rooms");
       if (response.ok) {
         const chats = await response.json();
@@ -43,31 +43,40 @@ export default function Rooms() {
     }
   };
 
-  // Fetch chats on component mount and every time logged in user changes.
   useEffect(() => {
     if (loggedInUser) {
       fetchChats();
     }
   }, [loggedInUser]);
 
+  // Set up Socket.IO client to listen for new chat messages
+  useEffect(() => {
+    const socket = io("http://localhost:3000");
+    socket.on("chat message", (msg) => {
+      // Append new message to state
+      setMessages((prevMessages) => [...prevMessages, msg]);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const handleSend = async () => {
     if (input.trim()) {
+      const newMsg = {
+        sender: loggedInUser.name,
+        message: input,
+      };
       try {
-        // POST the new message to backend. Ensure your backend route matches.
+        // POST the new message to backend.
         const response = await fetch("/api/rooms", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            sender: loggedInUser.name,
-            message: input
-          }),
+          body: JSON.stringify(newMsg),
         });
-        if (response.ok) {
-          // After sending, re-fetch chats to update the UI.
-          fetchChats();
-        } else {
+        if (!response.ok) {
           alert("Error sending message");
         }
       } catch (error) {
@@ -82,12 +91,10 @@ export default function Rooms() {
     alert("Room link copied!");
   };
 
-  // Leave room: navigate to home page
   const handleLeaveRoom = () => {
     navigate("/");
   };
 
-  // Example: current problem (for topics/tags if needed)
   const currentProblem = {
     title: "Two Sum",
     topics: ["Array", "Hash Table", "Two Pointers"],
@@ -103,9 +110,7 @@ export default function Rooms() {
       {/* Left Panel: Users & Options */}
       <div
         className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col ${
-          theme === "dark"
-            ? "bg-gray-950 border-gray-800"
-            : "bg-gray-100 border-gray-200"
+          theme === "dark" ? "bg-gray-950 border-gray-800" : "bg-gray-100 border-gray-200"
         }`}
       >
         <h3 className="text-lg font-bold mb-4">Users in Room</h3>
@@ -117,7 +122,6 @@ export default function Rooms() {
             </li>
           ))}
         </ul>
-        {/* Problem Topics: Only show if currentProblem exists */}
         {currentProblem && (
           <div className="mb-6">
             <h4 className="font-semibold mb-2">Problem Topics</h4>
@@ -166,16 +170,12 @@ export default function Rooms() {
             <h2 className="text-2xl font-semibold">Interactive Room</h2>
             {currentProblem && (
               <div className="text-sm opacity-70">
-                Problem:{" "}
-                <span className="font-semibold">{currentProblem.title}</span>
+                Problem: <span className="font-semibold">{currentProblem.title}</span>
               </div>
             )}
           </div>
           <span className="text-sm opacity-70">
-            Room ID:{" "}
-            <span className="font-mono">
-              {window.location.pathname.split("/").pop() || "12345"}
-            </span>
+            Room ID: <span className="font-mono">{window.location.pathname.split("/").pop() || "12345"}</span>
           </span>
         </div>
         {/* Chat Area */}
@@ -198,9 +198,7 @@ export default function Rooms() {
         <div className="flex">
           <input
             className={`flex-1 px-4 py-2 rounded-l border outline-none transition-colors duration-300 ${
-              theme === "dark"
-                ? "bg-gray-800 border-gray-700 text-white"
-                : "bg-white border-gray-300 text-gray-900"
+              theme === "dark" ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-300 text-gray-900"
             }`}
             placeholder="Type a message..."
             value={input}

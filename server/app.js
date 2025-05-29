@@ -17,7 +17,27 @@ app.use("/", allRoutes);
 // Serve static files
 app.use(express.static(path.join(__dirname, "../build")));
 
-// Handle client-side routing
+// Create HTTP server and attach Socket.IO
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PATCH"],
+  },
+});
+
+// Make io available globally (or use a better dependency injection pattern)
+global.io = io;
+
+io.on("connection", (socket) => {
+  console.log("Client connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected:", socket.id);
+  });
+});
 
 const port = process.env.PORT || 3000;
 const start = async () => {

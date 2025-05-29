@@ -34,6 +34,9 @@ const addChats = async (req,res)=>{
             message
         });
         await newChat.save();
+        if (global.io){
+            global.io.emit('chat message', newChat);
+        }
         return res.status(201).json({ message: 'Chat added successfully' });
     }
     catch(error){
