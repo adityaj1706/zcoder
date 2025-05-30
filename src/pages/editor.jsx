@@ -23,8 +23,13 @@ int main() {
   const storedUser = localStorage.getItem("user");
   const userData = storedUser ? JSON.parse(storedUser) : null;
   // Build user-specific keys. If no user, use default keys.
-  const bookmarkKey = userData ? `bookmarkedProblems_${userData.name}` : "bookmarkedProblems";
-  const solvedKey = userData ? `solvedProblems_${userData.name}` : "solvedProblems";
+  const bookmarkKey = userData
+    ? `bookmarkedProblems_${userData.name}`
+    : "bookmarkedProblems";
+  const solvedKey = userData
+    ? `solvedProblems_${userData.name}`
+    : "solvedProblems";
+
   // Fetch problem if not in navigation state
   useEffect(() => {
     if (!problem && id) {
@@ -36,12 +41,13 @@ int main() {
   }, [id, problem]);
 
   useEffect(() => {
-      const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
-      setBookmarked(bookmarks.includes(problem.title));
-  
-      const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
-      setSolved(solvedProblems.includes(problem.title));
-    }, [problem.title, bookmarkKey, solvedKey]);
+    if (!problem) return;
+    const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
+    setBookmarked(bookmarks.includes(problem.title));
+
+    const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
+    setSolved(solvedProblems.includes(problem.title));
+  }, [problem?.title, bookmarkKey, solvedKey]);
 
   // Toggle bookmark
   const toggleBookmark = async (e) => {
@@ -77,22 +83,25 @@ int main() {
     }
   };
 
+  // Toggle solved
   const toggleSolved = async (e) => {
     e.preventDefault(); // Prevent default link navigation
     if (!userData) return; // Only allow logged-in users
     let solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
     let action = "";
+    let newSolved;
     if (solvedProblems.includes(problem.title)) {
       // Remove solved problem
       solvedProblems = solvedProblems.filter((p) => p !== problem.title);
-      setSolved(false);
+      newSolved = false;
       action = "remove";
     } else {
       // Add solved problem
       solvedProblems.push(problem.title);
-      setSolved(true);
+      newSolved = true;
       action = "add";
     }
+    setSolved(newSolved);
     localStorage.setItem(solvedKey, JSON.stringify(solvedProblems));
 
     // Update solved in user stats backend
@@ -159,26 +168,22 @@ int main() {
                 <Bookmark className="w-5 h-5" />
               )}
             </button>
-            <label
-              className={`flex items-center px-3 py-1 rounded font-semibold cursor-pointer transition gap-2
-              ${
-                solved ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"
-              }
-              hover:bg-green-600`}
-              title={solved ? "Mark as Unsolved" : "Mark as Solved"}
+            <button
+              onClick={toggleSolved}
+              className={`px-3 py-1 rounded font-semibold flex items-center gap-2
+                ${
+                  solved
+                    ? "bg-green-400 text-black"
+                    : "bg-gray-300 text-gray-700"
+                }
+                hover:bg-green-500`}
+              title={solved ? "Mark as unsolved" : "Mark as solved"}
             >
-              <input
-                type="checkbox"
-                checked={solved}
-                onChange={toggleSolved}
-                className="form-checkbox accent-green-600"
-                style={{ accentColor: "#22c55e" }}
+              <CheckCircle
+                className={`w-5 h-5 ${solved ? "" : "opacity-50"}`}
               />
-              <span className="flex items-center gap-1">
-                <CheckCircle className="w-4 h-4" />
-                Solved
-              </span>
-            </label>
+              Solved
+            </button>
           </div>
         </div>
         <div className="p-6 pt-2">

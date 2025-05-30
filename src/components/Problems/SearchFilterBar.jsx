@@ -1,28 +1,14 @@
-import { useTheme } from "../../App"; 
+import { useTheme } from "../../App";
 
-const SearchFilterBar = ({
-  searchTerm,
-  setSearchTerm,
-  problems,
-  setFilteredProblems,
-}) => {
+const SearchFilterBar = ({ searchTerm, setSearchTerm }) => {
   const { theme } = useTheme();
-
-  const handleChange = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-    const filtered = problems.filter((p) =>
-      p.title.toLowerCase().includes(term.toLowerCase())
-    );
-    setFilteredProblems(filtered);
-  };
 
   return (
     <div>
       <input
         type="text"
         value={searchTerm}
-        onChange={handleChange}
+        onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search problems..."
         className={`w-full p-3 rounded-md shadow
           ${

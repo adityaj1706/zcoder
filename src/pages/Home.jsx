@@ -29,15 +29,15 @@ const Home = () => {
   return (
     <div
       className={`flex flex-col items-center justify-start pt-24 min-h-[80vh] transition-colors duration-300
-    ${
-      theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
-    }`}
+    ${theme === "dark" ? "text-white" : "text-gray-900"}`}
     >
-      <h1 className={`text-4xl md:text-5xl font-extrabold mb-4 drop-shadow ${
-  theme === "dark" ? "text-white" : "text-blue-900"
-}`}>
-  Welcome to ZCoder
-</h1>
+      <h1
+        className={`text-4xl md:text-5xl font-extrabold mb-4 drop-shadow ${
+          theme === "dark" ? "text-white" : "text-blue-900"
+        }`}
+      >
+        Welcome to ZCoder
+      </h1>
       <p className="text-lg md:text-xl mb-8 text-center max-w-2xl">
         Practice coding problems, collaborate in real-time rooms, and track your
         progress — all in one place.
@@ -123,7 +123,9 @@ const Home = () => {
               <span className="text-xl">{contest.icon}</span>
               <span>
                 {contest.name}
-                <span className="block text-xs font-normal opacity-80">{contest.desc}</span>
+                <span className="block text-xs font-normal opacity-80">
+                  {contest.desc}
+                </span>
               </span>
             </a>
           ))}

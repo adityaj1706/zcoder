@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProblemsHub from "./pages/Problems/ProblemsHub";
+import BackgroundParticles from "./components/BackgroundParticles";
 
 import Editor from "./pages/editor";
 import Profile from "./pages/Profile";
@@ -15,7 +16,6 @@ export function useTheme() {
 }
 
 function App() {
-  // Always start with light theme
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
@@ -34,8 +34,8 @@ function App() {
         className={
           theme === "dark"
             ? "bg-gray-900 text-white min-h-screen"
-            : "bg-white text-gray-900 min-h-screen"
-        }
+          : "bg-white text-gray-900 min-h-screen"
+      }
       >
         <Router>
           <Navbar />
