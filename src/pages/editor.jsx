@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MonacoEditor from "@monaco-editor/react";
 import { useTheme } from "../App";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { Bookmark, BookmarkCheck, CheckCircle } from "lucide-react";
 
 const Editor = () => {
@@ -12,10 +12,8 @@ int main() {
     // Write your code here...
     return 0;
 }`);
-  // s soumya
   const [userInput, setUserInput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
-  // e soumya
   const [output, setOutput] = useState("");
   const [bookmarked, setBookmarked] = useState(false);
   const { theme } = useTheme();
@@ -26,14 +24,13 @@ int main() {
   const [problem, setProblem] = useState(location.state?.problem || null);
   const storedUser = localStorage.getItem("user");
   const userData = storedUser ? JSON.parse(storedUser) : null;
-  // Build user-specific keys. If no user, use default keys.
   const bookmarkKey = userData
     ? `bookmarkedProblems_${userData.name}`
     : "bookmarkedProblems";
   const solvedKey = userData
     ? `solvedProblems_${userData.name}`
     : "solvedProblems";
-  // Fetch problem if not in navigation state
+
   useEffect(() => {
     if (!problem && id) {
       fetch(`http://localhost:3000/api/problems/${id}`)
@@ -44,33 +41,28 @@ int main() {
   }, [id, problem]);
 
   useEffect(() => {
+    if (!problem) return;
     const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
     setBookmarked(bookmarks.includes(problem.title));
-
     const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
     setSolved(solvedProblems.includes(problem.title));
-  }, [problem.title, bookmarkKey, solvedKey]);
+  }, [problem, bookmarkKey, solvedKey]);
 
-  // Toggle bookmark
   const toggleBookmark = async (e) => {
-    e.preventDefault(); // Prevent navigating when clicking the button
-    if (!userData) return; // Only allow logged-in users
+    e.preventDefault();
+    if (!userData || !problem) return;
     let bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
     let action = "";
     if (bookmarks.includes(problem.title)) {
-      // Remove bookmark
       bookmarks = bookmarks.filter((p) => p !== problem.title);
       setBookmarked(false);
       action = "remove";
     } else {
-      // Add bookmark
       bookmarks.push(problem.title);
       setBookmarked(true);
       action = "add";
     }
     localStorage.setItem(bookmarkKey, JSON.stringify(bookmarks));
-
-    // Update bookmarks in user stats backend
     try {
       await fetch(`/api/userstats?user=${userData.name}`, {
         method: "PATCH",
@@ -86,24 +78,20 @@ int main() {
   };
 
   const toggleSolved = async (e) => {
-    e.preventDefault(); // Prevent default link navigation
-    if (!userData) return; // Only allow logged-in users
+    e.preventDefault();
+    if (!userData || !problem) return;
     let solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
     let action = "";
     if (solvedProblems.includes(problem.title)) {
-      // Remove solved problem
       solvedProblems = solvedProblems.filter((p) => p !== problem.title);
       setSolved(false);
       action = "remove";
     } else {
-      // Add solved problem
       solvedProblems.push(problem.title);
       setSolved(true);
       action = "add";
     }
     localStorage.setItem(solvedKey, JSON.stringify(solvedProblems));
-
-    // Update solved in user stats backend
     try {
       await fetch(`/api/userstats?user=${userData.name}`, {
         method: "PATCH",
@@ -118,7 +106,6 @@ int main() {
     }
   };
 
-  // s soumya
   const runCode = async () => {
     setIsRunning(true);
     setOutput("Running...");
@@ -144,7 +131,6 @@ int main() {
       setIsRunning(false);
     }
   };
-  // e soumya
 
   if (!problem) {
     return (
@@ -364,7 +350,6 @@ int main() {
           theme === "dark" ? "bg-gray-900" : "bg-gray-50"
         }`}
       >
-        {/* s soumya */}
         <div
           className={`sticky top-0 z-10 p-3 border-b border-gray-200 ${
             theme === "dark" ? "bg-gray-900" : "bg-gray-50"
@@ -379,7 +364,6 @@ int main() {
             Code Editor
           </h1>
         </div>
-        {/* e soumya */}
         <div className="flex-1 p-6 pt-2 flex flex-col">
           <MonacoEditor
             height="350px"
@@ -394,7 +378,6 @@ int main() {
               automaticLayout: true,
             }}
           />
-          {/* s soumya */}
           <div className="mb-4">
             <label
               className={`block font-semibold mb-1 ${
@@ -411,11 +394,7 @@ int main() {
               placeholder="Enter custom input here..."
             />
           </div>
-          {/* e soumya */}
-          {/* s soumya */}
           <div className="flex items-center mt-1">
-            {/* e soumya */}
-            {/* s soumya */}
             <button
               className="px-6 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 font-semibold shadow disabled:opacity-60"
               onClick={runCode}
@@ -423,19 +402,12 @@ int main() {
             >
               {isRunning ? "Running..." : "Run Code"}
             </button>
-            {/* e soumya */}
-            {/* s soumya */}
             <span className="ml-4 text-gray-500 text-sm">
               *C++ code runs securely on the server.
             </span>
-            {/* e soumya */}
           </div>
           <div className="mt-6">
-            <div
-              className={`font-bold mb-2 ${
-                theme === "dark" ? "text-gray-200" : "text-gray-700"
-              }`}
-            >
+            <div className={`font-bold mb-2 ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>
               Output:
             </div>
             <div className="bg-black text-green-400 rounded p-4 min-h-[60px] font-mono text-base shadow-inner">
