@@ -14,7 +14,7 @@ export default function Rooms() {
   // Redirect to /profile if user is not logged in
   useEffect(() => {
     if (!loggedInUser) {
-      navigate("/profile");
+      navigate("/profile") ;
     }
   }, [navigate, loggedInUser]);
 
