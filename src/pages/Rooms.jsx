@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 export default function Rooms() {
   const { theme } = useTheme();
+  const { problemId } = useParams(); // Get problemId from URL
   const navigate = useNavigate();
 
   // Read logged in user from localStorage
@@ -14,7 +15,7 @@ export default function Rooms() {
   // Redirect to /profile if user is not logged in
   useEffect(() => {
     if (!loggedInUser) {
-      navigate("/profile");
+      navigate("/profile") ;
     }
   }, [navigate, loggedInUser]);
 
@@ -27,6 +28,7 @@ export default function Rooms() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [muted, setMuted] = useState(false);
+  const [problem, setProblem] = useState(null);
 
   // Fetch chats from backend (on mount and when loggedInUser changes)
   const fetchChats = async () => {
@@ -42,6 +44,15 @@ export default function Rooms() {
       console.error("Error fetching chats:", error);
     }
   };
+
+  // Fetch problem details when problemId changes
+  useEffect(() => {
+    if (problemId) {
+      fetch(`http://localhost:3000/api/problems/${problemId}`)
+        .then((res) => res.json())
+        .then((data) => setProblem(data));
+    }
+  }, [problemId]);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -95,11 +106,6 @@ export default function Rooms() {
     navigate("/");
   };
 
-  const currentProblem = {
-    title: "Two Sum",
-    topics: ["Array", "Hash Table", "Two Pointers"],
-  };
-
   return (
     <div
       className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded shadow transition-colors duration-300 ${
@@ -107,7 +113,7 @@ export default function Rooms() {
       }`}
       style={{ minHeight: "70vh" }}
     >
-      {/* Left Panel: Users & Options */}
+      {/* Sidebar */}
       <div
         className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col ${
           theme === "dark" ? "bg-gray-950 border-gray-800" : "bg-gray-100 border-gray-200"
@@ -122,11 +128,12 @@ export default function Rooms() {
             </li>
           ))}
         </ul>
-        {currentProblem && (
+        {/* Show problem topics if available */}
+        {problem && problem.topics && (
           <div className="mb-6">
             <h4 className="font-semibold mb-2">Problem Topics</h4>
             <div className="flex flex-wrap gap-2">
-              {currentProblem.topics.map((topic, idx) => (
+              {problem.topics.map((topic, idx) => (
                 <span
                   key={idx}
                   className="px-2 py-1 rounded bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-xs font-semibold shadow-sm"
@@ -162,20 +169,20 @@ export default function Rooms() {
           </button>
         </div>
       </div>
-      {/* Right Panel: Chat */}
+      {/* Main Room */}
       <div className="flex-1 flex flex-col p-6">
-        {/* Room Header */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-semibold">Interactive Room</h2>
-            {currentProblem && (
+            {/* Show problem title if available */}
+            {problem && (
               <div className="text-sm opacity-70">
-                Problem: <span className="font-semibold">{currentProblem.title}</span>
+                Problem: <span className="font-semibold">{problem.title}</span>
               </div>
             )}
           </div>
           <span className="text-sm opacity-70">
-            Room ID: <span className="font-mono">{window.location.pathname.split("/").pop() || "12345"}</span>
+            Room ID: <span className="font-mono">{problemId || "12345"}</span>
           </span>
         </div>
         {/* Chat Area */}
