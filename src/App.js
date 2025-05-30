@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProblemsHub from "./pages/Problems/ProblemsHub";
-
 import Editor from "./pages/editor";
 import Profile from "./pages/Profile";
 import Rooms from "./pages/Rooms";
@@ -15,7 +14,6 @@ export function useTheme() {
 }
 
 function App() {
-  // Always start with light theme
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
@@ -44,6 +42,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/rooms" element={<Rooms />} />
+            <Route path="/rooms/:problemId" element={<Rooms />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/problems" element={<ProblemsHub />} />
             <Route path="/problems/:id" element={<Editor />} />
