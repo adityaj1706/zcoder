@@ -74,10 +74,14 @@ app.post("/api/execute", apiLimiter, async (req, res) => {
 // e soumya
 
 // API routes
-app.use("/", allRoutes);
+app.use("/api", allRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "../build")));
+
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
+})
 
 // Create HTTP server and attach Socket.IO
 const http = require("http");

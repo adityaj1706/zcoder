@@ -7,17 +7,17 @@ const {getUserStats,updateUserStats}=require('../controllers/userstats-controlle
 const express=require("express");
 const router=express.Router();
 
-router.get("/api/problems",getProblems);
-router.get("/api/problems/:id",getOneProblem);
+router.get("/problems",getProblems);
+router.get("/problems/:id",getOneProblem);
 
-router.get("/api/rooms",getChats);
-router.post("/api/rooms",addChats);
+router.get("/rooms",getChats);
+router.post("/rooms",addChats);
 
-router.post("/api/signup",signup);
+router.post("/signup",signup);
 
-router.post("/api/login",login);
+router.post("/login",login);
 
-router.get("/api/userstats",getUserStats);
-router.patch("/api/userstats",updateUserStats);
+router.get("/userstats",getUserStats);
+router.patch("/userstats",updateUserStats);
 
 module.exports=router;
