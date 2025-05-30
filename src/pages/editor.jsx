@@ -12,6 +12,10 @@ int main() {
     // Write your code here...
     return 0;
 }`);
+  // s soumya
+  const [userInput, setUserInput] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
+  // e soumya
   const [output, setOutput] = useState("");
   const [bookmarked, setBookmarked] = useState(false);
   const { theme } = useTheme();
@@ -23,8 +27,12 @@ int main() {
   const storedUser = localStorage.getItem("user");
   const userData = storedUser ? JSON.parse(storedUser) : null;
   // Build user-specific keys. If no user, use default keys.
-  const bookmarkKey = userData ? `bookmarkedProblems_${userData.name}` : "bookmarkedProblems";
-  const solvedKey = userData ? `solvedProblems_${userData.name}` : "solvedProblems";
+  const bookmarkKey = userData
+    ? `bookmarkedProblems_${userData.name}`
+    : "bookmarkedProblems";
+  const solvedKey = userData
+    ? `solvedProblems_${userData.name}`
+    : "solvedProblems";
   // Fetch problem if not in navigation state
   useEffect(() => {
     if (!problem && id) {
@@ -36,12 +44,12 @@ int main() {
   }, [id, problem]);
 
   useEffect(() => {
-      const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
-      setBookmarked(bookmarks.includes(problem.title));
-  
-      const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
-      setSolved(solvedProblems.includes(problem.title));
-    }, [problem.title, bookmarkKey, solvedKey]);
+    const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
+    setBookmarked(bookmarks.includes(problem.title));
+
+    const solvedProblems = JSON.parse(localStorage.getItem(solvedKey) || "[]");
+    setSolved(solvedProblems.includes(problem.title));
+  }, [problem.title, bookmarkKey, solvedKey]);
 
   // Toggle bookmark
   const toggleBookmark = async (e) => {
@@ -110,10 +118,33 @@ int main() {
     }
   };
 
-  // Note: C++ code execution is not supported in-browser
-  const runCode = () => {
-    setOutput("C++ code execution is not supported in the browser.");
+  // s soumya
+  const runCode = async () => {
+    setIsRunning(true);
+    setOutput("Running...");
+    try {
+      const response = await fetch("/api/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code,
+          input: userInput,
+          language: "cpp",
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setOutput(result.output || "No output.");
+      } else {
+        setOutput(result.error || "Execution failed.");
+      }
+    } catch (err) {
+      setOutput("Network error: " + err.message);
+    } finally {
+      setIsRunning(false);
+    }
   };
+  // e soumya
 
   if (!problem) {
     return (
@@ -333,19 +364,22 @@ int main() {
           theme === "dark" ? "bg-gray-900" : "bg-gray-50"
         }`}
       >
+        {/* s soumya */}
         <div
-          className={`sticky top-0 z-10 p-6 border-b border-gray-200 ${
+          className={`sticky top-0 z-10 p-3 border-b border-gray-200 ${
             theme === "dark" ? "bg-gray-900" : "bg-gray-50"
           }`}
         >
           <h1
-            className={`text-2xl font-bold ${
+            className={`text-xl font-bold mb-0 ${
               theme === "dark" ? "text-white" : "text-gray-800"
             }`}
+            style={{ lineHeight: "1.2" }}
           >
             Code Editor
           </h1>
         </div>
+        {/* e soumya */}
         <div className="flex-1 p-6 pt-2 flex flex-col">
           <MonacoEditor
             height="350px"
@@ -360,17 +394,41 @@ int main() {
               automaticLayout: true,
             }}
           />
-          <div className="flex items-center mt-4">
-            <button
-              className="px-6 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 font-semibold shadow"
-              onClick={runCode}
+          {/* s soumya */}
+          <div className="mb-4">
+            <label
+              className={`block font-semibold mb-1 ${
+                theme === "dark" ? "text-white" : "text-gray-800"
+              }`}
             >
-              Run Code
+              Custom Input (stdin):
+            </label>
+            <textarea
+              className="w-full rounded p-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700"
+              rows={3}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Enter custom input here..."
+            />
+          </div>
+          {/* e soumya */}
+          {/* s soumya */}
+          <div className="flex items-center mt-1">
+            {/* e soumya */}
+            {/* s soumya */}
+            <button
+              className="px-6 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 font-semibold shadow disabled:opacity-60"
+              onClick={runCode}
+              disabled={isRunning}
+            >
+              {isRunning ? "Running..." : "Run Code"}
             </button>
+            {/* e soumya */}
+            {/* s soumya */}
             <span className="ml-4 text-gray-500 text-sm">
-              *C++ syntax highlighting only. Code execution not supported in
-              browser.
+              *C++ code runs securely on the server.
             </span>
+            {/* e soumya */}
           </div>
           <div className="mt-6">
             <div
