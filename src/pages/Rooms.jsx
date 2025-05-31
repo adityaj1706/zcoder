@@ -75,7 +75,7 @@ export default function Rooms() {
   const handleSend = async () => {
     if (input.trim()) {
       const newMsg = {
-        sender: loggedInUser.name,
+        sender: loggedInUser.username,
         message: input,
       };
       try {

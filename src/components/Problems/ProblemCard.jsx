@@ -25,8 +25,8 @@ const ProblemCard = ({ problem }) => {
   const storedUser = localStorage.getItem("user");
   const userData = storedUser ? JSON.parse(storedUser) : null;
   // Build user-specific keys. If no user, use default keys.
-  const bookmarkKey = userData ? `bookmarkedProblems_${userData.name}` : "bookmarkedProblems";
-  const solvedKey = userData ? `solvedProblems_${userData.name}` : "solvedProblems";
+  const bookmarkKey = userData ? `bookmarkedProblems_${userData.username}` : "bookmarkedProblems";
+  const solvedKey = userData ? `solvedProblems_${userData.username}` : "solvedProblems";
 
   useEffect(() => {
     const bookmarks = JSON.parse(localStorage.getItem(bookmarkKey) || "[]");
@@ -56,7 +56,7 @@ const ProblemCard = ({ problem }) => {
 
     // Update bookmarks in user stats backend
     try {
-      await fetch(`/api/userstats?user=${userData.name}`, {
+      await fetch(`/api/userstats?user=${userData.username}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -89,7 +89,7 @@ const ProblemCard = ({ problem }) => {
 
     // Update solved in user stats backend
     try {
-      await fetch(`/api/userstats?user=${userData.name}`, {
+      await fetch(`/api/userstats?user=${userData.username}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
