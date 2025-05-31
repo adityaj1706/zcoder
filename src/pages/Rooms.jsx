@@ -9,7 +9,7 @@ export default function Rooms() {
   const navigate = useNavigate();
 
   // Read logged in user from localStorage
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("username");
   const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
 
   // Redirect to /profile if user is not logged in
