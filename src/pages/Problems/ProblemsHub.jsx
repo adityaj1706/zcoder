@@ -28,7 +28,7 @@ export default function ProblemsHub() {
     const storedUser = localStorage.getItem("user");
     const userData = storedUser ? JSON.parse(storedUser) : null;
     const solvedKey = userData
-      ? `solvedProblems_${userData.name}`
+      ? `solvedProblems_${userData.username}`
       : "solvedProblems";
     const solved = JSON.parse(localStorage.getItem(solvedKey) || "[]");
     setSolvedProblems(solved);

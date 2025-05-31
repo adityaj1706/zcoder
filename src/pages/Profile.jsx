@@ -31,7 +31,7 @@ export default function Profile() {
     if (user) {
       const fetchUserStats = async () => {
         try {
-          const res = await fetch(`/api/userstats?user=${user.name}`);
+          const res = await fetch(`/api/userstats?user=${user.username}`);
           const data = await res.json();
           // Assume your backend returns { solved: [...], bookmarks: [...] }
           setSolvedProblems(data.solved || []);
@@ -60,7 +60,7 @@ export default function Profile() {
         });
         const data = await response.json();
         if (response.ok) {
-          const loggedInUser = { name: username };
+          const loggedInUser = { username: username, name: data.name || username };
           setUser(loggedInUser);
           localStorage.setItem("user", JSON.stringify(loggedInUser));
           setUsername("");
@@ -102,7 +102,7 @@ export default function Profile() {
         });
         const data = await response.json();
         if (response.ok) {
-          const newUser = { name };
+          const newUser = { username, name };
           setUser(newUser);
           localStorage.setItem("user", JSON.stringify(newUser));
           setName("");
@@ -287,10 +287,10 @@ export default function Profile() {
     >
       <div className="flex items-center mb-8">
         <div className="bg-blue-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-3xl font-bold mr-6 shadow">
-          {user.name[0].toUpperCase()}
+          {user.username[0].toUpperCase()}
         </div>
         <div>
-          <h2 className="text-2xl font-bold mb-1">Welcome, {user.name}!</h2>
+          <h2 className="text-2xl font-bold mb-1">Welcome, {user.username}!</h2>
           <div className="text-gray-500 dark:text-gray-300">
             Your coding journey starts here 🚀
           </div>
