@@ -52,7 +52,7 @@ export default function Profile() {
     if (user) {
       const fetchUserStats = async () => {
         try {
-          const res = await fetch(`/api/userstats?user=${user.name}`);
+          const res = await fetch(`/api/userstats?user=${user.username}`);
           const data = await res.json();
           setSolvedProblems(data.solved || []);
           setBookmarkedProblems(data.bookmarks || []);
@@ -122,7 +122,7 @@ export default function Profile() {
         });
         const data = await response.json();
         if (response.ok) {
-          const newUser = { name };
+          const newUser = { username };
           setUser(newUser);
           localStorage.setItem("user", JSON.stringify(newUser));
           setName("");
@@ -316,9 +316,9 @@ return (
       ${theme === "dark" ? "bg-gray-800" : "bg-gray-50"}`}
     >
       <div className="bg-blue-900 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-4 shadow">
-        {user.name[0].toUpperCase()}
+        {user.username[0].toUpperCase()}
       </div>
-      <h2 className="text-2xl font-bold mb-1 text-center">{user.name}</h2>
+      <h2 className="text-2xl font-bold mb-1 text-center">{user.username}</h2>
       <button
         className="text-xs text-blue-600 hover:underline mb-4"
         onClick={() => setEditing((e) => !e)}
