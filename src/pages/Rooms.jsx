@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 export default function Rooms() {
   const { theme } = useTheme();
+  const { problemId } = useParams();
   const navigate = useNavigate();
 
   // Read logged in user from localStorage
@@ -14,7 +15,7 @@ export default function Rooms() {
   // Redirect to /profile if user is not logged in
   useEffect(() => {
     if (!loggedInUser) {
-      navigate("/profile");
+      navigate("/profile") ;
     }
   }, [navigate, loggedInUser]);
 
@@ -27,6 +28,7 @@ export default function Rooms() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [muted, setMuted] = useState(false);
+  const [problem, setProblem] = useState(null);
 
   // Fetch chats from backend (on mount and when loggedInUser changes)
   const fetchChats = async () => {
@@ -42,6 +44,15 @@ export default function Rooms() {
       console.error("Error fetching chats:", error);
     }
   };
+
+  // Fetch problem details when problemId changes
+  useEffect(() => {
+    if (problemId) {
+      fetch(`http://localhost:3000/api/problems/${problemId}`)
+        .then((res) => res.json())
+        .then((data) => setProblem(data));
+    }
+  }, [problemId]);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -64,7 +75,7 @@ export default function Rooms() {
   const handleSend = async () => {
     if (input.trim()) {
       const newMsg = {
-        sender: loggedInUser.name,
+        sender: loggedInUser.username,
         message: input,
       };
       try {
@@ -95,41 +106,46 @@ export default function Rooms() {
     navigate("/");
   };
 
-  const currentProblem = {
-    title: "Two Sum",
-    topics: ["Array", "Hash Table", "Two Pointers"],
-  };
-
   return (
     <div
-      className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded shadow transition-colors duration-300 ${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded-2xl shadow-2xl transition-colors duration-300 border-2 ${
+        theme === "dark"
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white border-gray-800"
+          : "bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-900 border-blue-200"
       }`}
       style={{ minHeight: "70vh" }}
     >
-      {/* Left Panel: Users & Options */}
+      {/* Sidebar */}
       <div
-        className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col ${
-          theme === "dark" ? "bg-gray-950 border-gray-800" : "bg-gray-100 border-gray-200"
-        }`}
+        className={`md:w-1/4 w-full border-b-2 md:border-b-0 md:border-r-2 p-6 flex flex-col ${
+          theme === "dark"
+            ? "bg-gradient-to-br from-gray-950 to-gray-900 border-gray-800"
+            : "bg-gradient-to-br from-blue-100 to-blue-200 border-blue-200"
+        } rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none`}
       >
-        <h3 className="text-lg font-bold mb-4">Users in Room</h3>
+        <h3 className="text-lg font-bold mb-4 tracking-wide text-blue-900 dark:text-blue-300">
+          Users in Room
+        </h3>
         <ul className="mb-6">
           {users.map((u, i) => (
-            <li key={i} className="flex items-center mb-3">
+            <li
+              key={i}
+              className="flex items-center mb-3 p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-gray-800 transition"
+            >
               <span className="text-2xl mr-2">{u.avatar}</span>
-              <span>{u.name}</span>
+              <span className="font-semibold">{u.name}</span>
             </li>
           ))}
         </ul>
-        {currentProblem && (
+        {/* Show problem topics if available */}
+        {problem && problem.topics && (
           <div className="mb-6">
-            <h4 className="font-semibold mb-2">Problem Topics</h4>
+            <h4 className="font-semibold mb-2 text-indigo-700 dark:text-indigo-300">Problem Topics</h4>
             <div className="flex flex-wrap gap-2">
-              {currentProblem.topics.map((topic, idx) => (
+              {problem.topics.map((topic, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-1 rounded bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-xs font-semibold shadow-sm"
+                  className="px-2 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-xs font-semibold shadow"
                 >
                   {topic}
                 </span>
@@ -139,22 +155,22 @@ export default function Rooms() {
         )}
         <div className="mt-auto flex flex-col gap-2">
           <button
-            className="w-full px-3 py-2 rounded bg-blue-900 text-white hover:bg-blue-950 font-semibold transition"
+            className="w-full px-3 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 text-white hover:from-red-600 hover:to-red-800 font-semibold shadow transition"
             onClick={handleLeaveRoom}
           >
             Leave Room
           </button>
           <button
-            className="w-full px-3 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600 font-semibold transition"
+            className="w-full px-3 py-2 rounded-lg bg-gradient-to-r from-blue-400 to-blue-700 text-white hover:from-blue-500 hover:to-blue-800 font-semibold shadow transition"
             onClick={handleCopyLink}
           >
             Copy Room Link
           </button>
           <button
-            className={`w-full px-3 py-2 rounded font-semibold transition ${
+            className={`w-full px-3 py-2 rounded-lg font-semibold shadow transition ${
               muted
-                ? "bg-yellow-400 text-black hover:bg-yellow-500"
-                : "bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600"
+                ? "bg-gradient-to-r from-yellow-300 to-yellow-500 text-black hover:from-yellow-400 hover:to-yellow-600"
+                : "bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-700 dark:to-gray-800 text-gray-900 dark:text-white hover:from-gray-400 hover:to-gray-500 dark:hover:from-gray-800 dark:hover:to-gray-900"
             }`}
             onClick={() => setMuted((m) => !m)}
           >
@@ -162,43 +178,62 @@ export default function Rooms() {
           </button>
         </div>
       </div>
-      {/* Right Panel: Chat */}
+      {/* Main Room */}
       <div className="flex-1 flex flex-col p-6">
-        {/* Room Header */}
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-semibold">Interactive Room</h2>
-            {currentProblem && (
-              <div className="text-sm opacity-70">
-                Problem: <span className="font-semibold">{currentProblem.title}</span>
+            <h2 className="text-2xl font-extrabold tracking-tight text-blue-900 dark:text-blue-200">
+              Interactive Room
+            </h2>
+            {/* Show problem title if available */}
+            {problem && (
+              <div className="text-sm opacity-80 mt-1">
+                <span className="font-semibold text-indigo-700 dark:text-indigo-300">Problem:</span>{" "}
+                <span className="font-semibold">{problem.title}</span>
               </div>
             )}
           </div>
-          <span className="text-sm opacity-70">
-            Room ID: <span className="font-mono">{window.location.pathname.split("/").pop() || "12345"}</span>
+          <span className="text-sm opacity-70 bg-blue-100 dark:bg-gray-800 px-3 py-1 rounded-full font-mono">
+            Room ID: <span className="font-bold">{problemId || "12345"}</span>
           </span>
         </div>
         {/* Chat Area */}
         <div
-          className="flex-1 overflow-y-auto mb-4 bg-opacity-50 rounded p-4"
+          className="flex-1 overflow-y-auto mb-4 rounded-xl p-4 shadow-inner border-2 border-blue-100 dark:border-gray-800"
           style={{
-            background: theme === "dark" ? "#23272e" : "#f3f4f6",
+            background: theme === "dark"
+              ? "linear-gradient(135deg, #23272e 60%, #1e293b 100%)"
+              : "linear-gradient(135deg, #f3f4f6 60%, #e0e7ff 100%)",
             minHeight: "200px",
             maxHeight: "300px",
           }}
         >
-          {messages.map((msg, idx) => (
-            <div key={idx} className="mb-2">
-              <span className="font-bold">{msg.sender}: </span>
-              <span>{msg.message}</span>
-            </div>
-          ))}
+          {messages.length === 0 ? (
+            <div className="text-center text-gray-400 mt-10">No messages yet. Start the conversation!</div>
+          ) : (
+            messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`mb-2 p-2 rounded-lg ${
+                  msg.sender === loggedInUser?.username
+                    ? "bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-200 ml-auto w-fit"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white mr-auto w-fit"
+                }`}
+                style={{ maxWidth: "80%" }}
+              >
+                <span className="font-bold">{msg.sender}: </span>
+                <span>{msg.message}</span>
+              </div>
+            ))
+          )}
         </div>
         {/* Message Input */}
-        <div className="flex">
+        <div className="flex mt-2">
           <input
-            className={`flex-1 px-4 py-2 rounded-l border outline-none transition-colors duration-300 ${
-              theme === "dark" ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-300 text-gray-900"
+            className={`flex-1 px-4 py-2 rounded-l-lg border-2 outline-none transition-colors duration-300 shadow ${
+              theme === "dark"
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-blue-200 text-gray-900"
             }`}
             placeholder="Type a message..."
             value={input}
@@ -207,7 +242,7 @@ export default function Rooms() {
             disabled={muted}
           />
           <button
-            className="bg-blue-900 text-white px-6 py-2 rounded-r hover:bg-blue-950 font-semibold transition"
+            className="bg-gradient-to-r from-blue-700 to-blue-900 text-white px-6 py-2 rounded-r-lg font-semibold shadow hover:from-blue-800 hover:to-blue-950 transition"
             onClick={handleSend}
             disabled={muted}
           >
@@ -215,7 +250,7 @@ export default function Rooms() {
           </button>
         </div>
         {muted && (
-          <div className="text-yellow-400 mt-2 text-sm font-semibold">
+          <div className="text-yellow-400 mt-2 text-sm font-semibold text-center">
             Notifications are muted. You won't receive new message alerts.
           </div>
         )}
