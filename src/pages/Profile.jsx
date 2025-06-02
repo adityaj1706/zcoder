@@ -282,79 +282,105 @@ export default function Profile() {
   }
   return (
     <div
-      className={`max-w-2xl mx-auto mt-12 p-6 rounded-lg shadow-lg transition-colors duration-300
-      ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}
+      className={`max-w-5xl mx-auto mt-12 p-4 md:p-8 rounded-2xl shadow-2xl transition-colors duration-300 flex flex-col md:flex-row gap-10
+      ${theme === "dark" ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" : "bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-900"}`}
     >
-      <div className="flex items-center mb-8">
-        <div className="bg-blue-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-3xl font-bold mr-6 shadow">
-          {user.username[0].toUpperCase()}
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold mb-1">Welcome, {user.username}!</h2>
-          <div className="text-gray-500 dark:text-gray-300">
-            Your coding journey starts here 🚀
+      {/* Left Section: User & Progress */}
+      <div className="w-full md:w-1/2 flex flex-col items-center md:items-start">
+        <div className="flex flex-col items-center md:items-start mb-10">
+          <div className="bg-gradient-to-br from-blue-700 to-blue-900 text-white rounded-full w-24 h-24 flex items-center justify-center text-5xl font-extrabold mb-4 shadow-lg border-4 border-blue-200 dark:border-gray-700">
+            {user.username[0].toUpperCase()}
           </div>
-        </div>
-      </div>
-
-      <div
-        className={`mb-8 p-5 rounded-lg shadow transition-colors duration-300 flex flex-col items-center
-        ${theme === "dark" ? "bg-gray-800" : "bg-gray-100"}`}
-      >
-        <div className="flex items-center mb-2">
-          <span className="text-blue-900 text-2xl mr-2">📈</span>
-          <h3 className="text-lg font-semibold">Progress</h3>
-        </div>
-        <div className="w-full">
-          <div className="flex justify-between text-sm mb-1">
-            <span>
-              {solvedCount} of {totalProblems} problems solved
-            </span>
-            <span>{progressPercent}%</span>
+          <h2 className="text-3xl font-extrabold mb-1 tracking-tight text-blue-900 dark:text-blue-200">
+            {user.username}
+          </h2>
+          <div className="text-base text-gray-500 dark:text-gray-300 mb-2">
+            Welcome back, coder! 🚀
           </div>
-          <div className="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-3">
-            <div
-              className="bg-blue-900 h-3 rounded-full transition-all duration-500"
-              style={{ width: `${progressPercent}%` }}
-            ></div>
-          </div>
+          
         </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
         <div
-          className={`rounded-lg shadow p-5 transition-colors duration-300 ${
-            theme === "dark" ? "bg-gray-800" : "bg-gray-100"
-          }`}
+          className={`w-full mb-8 p-6 rounded-xl shadow-lg flex flex-col items-center bg-gradient-to-br
+          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-blue-100 to-blue-200"}`}
         >
-          <div className="flex items-center mb-3">
-            <span className="text-green-500 text-2xl mr-2">✔</span>
-            <h3 className="text-lg font-semibold">Solved Problems</h3>
+          <div className="flex items-center mb-4">
+            <span className="text-blue-900 dark:text-blue-300 text-2xl mr-2">📈</span>
+            <h3 className="text-xl font-semibold">Progress</h3>
           </div>
-          <ul className="list-disc ml-6">
+          <div className="w-full flex flex-col items-center">
+            <div className="relative w-28 h-28 flex items-center justify-center mb-2">
+              <svg className="w-28 h-28">
+                <circle
+                  className="text-gray-300 dark:text-gray-700"
+                  strokeWidth="10"
+                  stroke="currentColor"
+                  fill="transparent"
+                  r="50"
+                  cx="56"
+                  cy="56"
+                />
+                <circle
+                  className="text-blue-700 dark:text-blue-400"
+                  strokeWidth="10"
+                  strokeDasharray={314.16}
+                  strokeDashoffset={314.16 - (progressPercent / 100) * 314.16}
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="transparent"
+                  r="50"
+                  cx="56"
+                  cy="56"
+                  style={{
+                    transition: "stroke-dashoffset 0.6s cubic-bezier(.4,2,.6,1)",
+                  }}
+                />
+              </svg>
+              <span className="absolute text-2xl font-extrabold text-blue-900 dark:text-blue-200">
+                {progressPercent}%
+              </span>
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-300">
+              <span className="font-semibold">{solvedCount}</span> of <span className="font-semibold">{totalProblems}</span> problems solved
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section: Solved & Bookmarked Problems */}
+      <div className="w-full md:w-1/2 flex flex-col gap-8">
+        <div
+          className={`rounded-xl shadow-lg p-6 bg-gradient-to-br
+          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-green-50 to-green-100"}`}
+        >
+          <div className="flex items-center mb-4">
+            <span className="text-green-500 text-2xl mr-2">✔</span>
+            <h3 className="text-lg font-bold">Solved Problems</h3>
+          </div>
+          <ul className="list-disc ml-6 max-h-32 overflow-y-auto custom-scrollbar">
             {solvedProblems.length === 0 ? (
               <li className="text-gray-400">No problems solved yet.</li>
             ) : (
-              solvedProblems.map((prob, idx) => <li key={idx}>{prob}</li>)
+              solvedProblems.map((prob, idx) => (
+                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">{prob}</li>
+              ))
             )}
           </ul>
         </div>
-
-        {/* Bookmarked Problems Card */}
         <div
-          className={`rounded-lg shadow p-5 transition-colors duration-300 ${
-            theme === "dark" ? "bg-gray-800" : "bg-gray-100"
-          }`}
+          className={`rounded-xl shadow-lg p-6 bg-gradient-to-br
+          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-yellow-50 to-yellow-100"}`}
         >
-          <div className="flex items-center mb-3">
+          <div className="flex items-center mb-4">
             <span className="text-yellow-400 text-2xl mr-2">★</span>
-            <h3 className="text-lg font-semibold">Bookmarked Problems</h3>
+            <h3 className="text-lg font-bold">Bookmarked Problems</h3>
           </div>
-          <ul className="list-disc ml-6">
+          <ul className="list-disc ml-6 max-h-32 overflow-y-auto custom-scrollbar">
             {bookmarkedProblems.length === 0 ? (
               <li className="text-gray-400">No bookmarked problems yet.</li>
             ) : (
-              bookmarkedProblems.map((prob, idx) => <li key={idx}>{prob}</li>)
+              bookmarkedProblems.map((prob, idx) => (
+                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">{prob}</li>
+              ))
             )}
           </ul>
         </div>
@@ -362,3 +388,8 @@ export default function Profile() {
     </div>
   );
 }
+
+// Optionally add this to your CSS for a nice scrollbar
+// .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+// .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+// .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; }
