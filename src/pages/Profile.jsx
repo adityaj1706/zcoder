@@ -60,7 +60,10 @@ export default function Profile() {
         });
         const data = await response.json();
         if (response.ok) {
-          const loggedInUser = { username: username, name: data.name || username };
+          const loggedInUser = {
+            username: username,
+            name: data.name || username,
+          };
           setUser(loggedInUser);
           localStorage.setItem("user", JSON.stringify(loggedInUser));
           setUsername("");
@@ -131,7 +134,7 @@ export default function Profile() {
     return (
       <div
         className={`flex flex-col items-center justify-center min-h-[60vh] transition-colors duration-300
-          ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}
+          ${theme === "dark" ? " text-white" : " text-gray-900"}`}
       >
         <div
           className={`rounded-xl p-8 w-full max-w-md border transition-colors duration-300
@@ -283,7 +286,7 @@ export default function Profile() {
   return (
     <div
       className={`max-w-5xl mx-auto mt-12 p-4 md:p-8 rounded-2xl shadow-2xl transition-colors duration-300 flex flex-col md:flex-row gap-10
-      ${theme === "dark" ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" : "bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-900"}`}
+      ${theme === "dark" ? " text-white" : "text-gray-900"}`}
     >
       {/* Left Section: User & Progress */}
       <div className="w-full md:w-1/2 flex flex-col items-center md:items-start">
@@ -297,14 +300,19 @@ export default function Profile() {
           <div className="text-base text-gray-500 dark:text-gray-300 mb-2">
             Welcome back, coder! 🚀
           </div>
-          
         </div>
         <div
           className={`w-full mb-8 p-6 rounded-xl shadow-lg flex flex-col items-center bg-gradient-to-br
-          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-blue-100 to-blue-200"}`}
+          ${
+            theme === "dark"
+              ? "from-gray-800 to-gray-900"
+              : "from-blue-100 to-blue-200"
+          }`}
         >
           <div className="flex items-center mb-4">
-            <span className="text-blue-900 dark:text-blue-300 text-2xl mr-2">📈</span>
+            <span className="text-blue-900 dark:text-blue-300 text-2xl mr-2">
+              📈
+            </span>
             <h3 className="text-xl font-semibold">Progress</h3>
           </div>
           <div className="w-full flex flex-col items-center">
@@ -331,7 +339,8 @@ export default function Profile() {
                   cx="56"
                   cy="56"
                   style={{
-                    transition: "stroke-dashoffset 0.6s cubic-bezier(.4,2,.6,1)",
+                    transition:
+                      "stroke-dashoffset 0.6s cubic-bezier(.4,2,.6,1)",
                   }}
                 />
               </svg>
@@ -340,7 +349,9 @@ export default function Profile() {
               </span>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-300">
-              <span className="font-semibold">{solvedCount}</span> of <span className="font-semibold">{totalProblems}</span> problems solved
+              <span className="font-semibold">{solvedCount}</span> of{" "}
+              <span className="font-semibold">{totalProblems}</span> problems
+              solved
             </div>
           </div>
         </div>
@@ -350,7 +361,11 @@ export default function Profile() {
       <div className="w-full md:w-1/2 flex flex-col gap-8">
         <div
           className={`rounded-xl shadow-lg p-6 bg-gradient-to-br
-          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-green-50 to-green-100"}`}
+          ${
+            theme === "dark"
+              ? "from-gray-800 to-gray-900"
+              : "from-green-50 to-green-100"
+          }`}
         >
           <div className="flex items-center mb-4">
             <span className="text-green-500 text-2xl mr-2">✔</span>
@@ -361,14 +376,20 @@ export default function Profile() {
               <li className="text-gray-400">No problems solved yet.</li>
             ) : (
               solvedProblems.map((prob, idx) => (
-                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">{prob}</li>
+                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">
+                  {prob}
+                </li>
               ))
             )}
           </ul>
         </div>
         <div
           className={`rounded-xl shadow-lg p-6 bg-gradient-to-br
-          ${theme === "dark" ? "from-gray-800 to-gray-900" : "from-yellow-50 to-yellow-100"}`}
+          ${
+            theme === "dark"
+              ? "from-gray-800 to-gray-900"
+              : "from-yellow-50 to-yellow-100"
+          }`}
         >
           <div className="flex items-center mb-4">
             <span className="text-yellow-400 text-2xl mr-2">★</span>
@@ -379,7 +400,9 @@ export default function Profile() {
               <li className="text-gray-400">No bookmarked problems yet.</li>
             ) : (
               bookmarkedProblems.map((prob, idx) => (
-                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">{prob}</li>
+                <li key={idx} className="mb-1 text-gray-800 dark:text-gray-200">
+                  {prob}
+                </li>
               ))
             )}
           </ul>
@@ -388,8 +411,3 @@ export default function Profile() {
     </div>
   );
 }
-
-// Optionally add this to your CSS for a nice scrollbar
-// .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-// .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
-// .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; }
