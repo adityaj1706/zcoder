@@ -29,12 +29,46 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div
-        className={
-          theme === "dark"
-            ? "bg-gray-900 text-white min-h-screen"
-          : "bg-white text-gray-900 min-h-screen"
-      }
+        className={`relative min-h-screen ${
+          theme === "dark" ? "text-white" : "text-gray-900"
+        }`}
       >
+        {/* Nebula background */}
+        <div className="code-galaxy-bg">
+          <div
+            className="code-galaxy-snippet"
+            style={{
+              top: "10%",
+              left: "4%",
+              fontSize: "1.1rem",
+              transform: "rotate(-7deg)",
+            }}
+          >
+            {`function greet() {\n  console.log("Hello, Galaxy!");\n}`}
+          </div>
+          <div
+            className="code-galaxy-snippet"
+            style={{
+              top: "60%",
+              left: "90%",
+              fontSize: "1.3rem",
+              transform: "rotate(12deg)",
+            }}
+          >
+            {`int x=10;`}
+          </div>
+          <div
+            className="code-galaxy-snippet"
+            style={{
+              top: "45%",
+              left: "40%",
+              fontSize: "1.5rem",
+              transform: "rotate(-3deg)",
+            }}
+          >
+            {`// Explore the code universe`}
+          </div>
+        </div>
         <Router>
           <Navbar />
           <Routes>

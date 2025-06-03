@@ -3,19 +3,15 @@ import { createContext, useContext, useEffect, useState } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Sync initial state with localStorage
-  const [theme, setTheme] = useState(() =>
-    localStorage.getItem("theme") === "dark" ? "dark" : "light"
-  );
+  // Always start with light mode by default
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
     }
   }, [theme]);
 

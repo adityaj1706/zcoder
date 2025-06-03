@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MonacoEditor from "@monaco-editor/react";
 import { useTheme } from "../App";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Bookmark, BookmarkCheck, CheckCircle } from "lucide-react";
 
 const Editor = () => {
@@ -20,6 +20,7 @@ int main() {
   const location = useLocation();
   const { id } = useParams();
   const [solved, setSolved] = useState(false);
+  const [showSolution, setShowSolution] = useState(false);
 
   const [problem, setProblem] = useState(location.state?.problem || null);
   const storedUser = localStorage.getItem("user");
@@ -228,14 +229,45 @@ int main() {
               className={theme === "dark" ? "text-gray-200" : "text-gray-800"}
             >
               {problem.description && problem.description.startsWith("<") ? (
-                <div
-                  className={`prose max-w-none ${
-                    theme === "dark" ? "prose-invert" : ""
-                  } ${theme === "dark" ? "text-gray-200" : "text-gray-800"}`}
-                  dangerouslySetInnerHTML={{
-                    __html: problem.description,
-                  }}
-                />
+                <>
+                  <div
+                    className={`prose max-w-none ${
+                      theme === "dark" ? "prose-invert" : ""
+                    } ${theme === "dark" ? "text-gray-200" : "text-gray-800"}`}
+                    dangerouslySetInnerHTML={{
+                      __html: problem.description,
+                    }}
+                  />
+                  {/* Solution Dropdown */}
+                  {problem.solution && problem.solution.python && (
+                    <div className="mb-2 mt-4">
+                      <button
+                        className={`font-semibold px-4 py-2 rounded transition-colors ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-green-300 hover:bg-gray-700"
+                            : "bg-gray-100 text-green-700 hover:bg-gray-200"
+                        }`}
+                        onClick={() => setShowSolution((v) => !v)}
+                      >
+                        {showSolution
+                          ? "Hide Solution"
+                          : "Solution (try yourself first)"}
+                      </button>
+                      {showSolution && (
+                        <pre
+                          className={`rounded px-2 py-2 mt-2 font-mono text-sm overflow-x-auto transition-colors duration-300 ${
+                            theme === "dark"
+                              ? "bg-gray-800 text-green-300"
+                              : "bg-gray-100 text-gray-900"
+                          }`}
+                          style={{ whiteSpace: "pre-wrap" }}
+                        >
+                          {problem.solution.python}
+                        </pre>
+                      )}
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
                   <div className="mb-4">{problem.description}</div>
@@ -336,6 +368,35 @@ int main() {
                         : null}
                     </ul>
                   </div>
+                  {/* Solution Dropdown */}
+                  {problem.solution && problem.solution.python && (
+                    <div className="mb-2 mt-4">
+                      <button
+                        className={`font-semibold px-4 py-2 rounded transition-colors ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-green-300 hover:bg-gray-700"
+                            : "bg-gray-100 text-green-700 hover:bg-gray-200"
+                        }`}
+                        onClick={() => setShowSolution((v) => !v)}
+                      >
+                        {showSolution
+                          ? "Hide Solution"
+                          : "Solution (try yourself first)"}
+                      </button>
+                      {showSolution && (
+                        <pre
+                          className={`rounded px-2 py-2 mt-2 font-mono text-sm overflow-x-auto transition-colors duration-300 ${
+                            theme === "dark"
+                              ? "bg-gray-800 text-green-300"
+                              : "bg-gray-100 text-gray-900"
+                          }`}
+                          style={{ whiteSpace: "pre-wrap" }}
+                        >
+                          {problem.solution.python}
+                        </pre>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
             </div>
@@ -406,7 +467,11 @@ int main() {
             </span>
           </div>
           <div className="mt-6">
-            <div className={`font-bold mb-2 ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>
+            <div
+              className={`font-bold mb-2 ${
+                theme === "dark" ? "text-gray-200" : "text-gray-700"
+              }`}
+            >
               Output:
             </div>
             <div className="bg-black text-green-400 rounded p-4 min-h-[60px] font-mono text-base shadow-inner">

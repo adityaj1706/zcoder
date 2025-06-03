@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../App";
 
@@ -24,20 +24,33 @@ const contestLinks = [
 ];
 
 const Home = () => {
-  const { theme,toggleTheme } = useTheme();
+  const { theme } = useTheme();
+  const [showZCoder, setShowZCoder] = useState(false);
+
+  useEffect(() => {
+    setShowZCoder(true);
+  }, []);
 
   return (
     <div
       className={`flex flex-col items-center justify-start pt-24 min-h-[80vh] transition-colors duration-300
-    ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+        ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+      style={{ position: "relative", zIndex: 1 }}
     >
-      <h1
-        className={`text-4xl md:text-5xl font-extrabold mb-4 drop-shadow ${
-          theme === "dark" ? "text-white" : "text-blue-900"
-        }`}
-      >
-        Welcome to ZCoder
-      </h1>
+      <div className="flex justify-center mb-8">
+        <h1
+          className={`text-4xl md:text-5xl font-extrabold mb-4 drop-shadow ${
+            theme === "dark" ? "text-white" : "text-blue-900"
+          }`}
+          style={{
+            fontFamily: "'Orbitron', sans-serif",
+            display: "inline-block",
+            verticalAlign: "middle",
+          }}
+        >
+          <span className={showZCoder ? "typing" : ""}>Welcome to ZCoder</span>
+        </h1>
+      </div>
       <p className="text-lg md:text-xl mb-8 text-center max-w-2xl">
         Practice coding problems, collaborate in real-time rooms, and track your
         progress — all in one place.
@@ -45,18 +58,18 @@ const Home = () => {
       {/* Main Feature Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
         <Link
-          to="/editor"
+          to="/problems"
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
             ${
               theme === "dark"
-                ? "bg-gray-800 hover:bg-blue-900"
-                : "bg-white hover:bg-blue-100"
+                ? "bg-gray-800/80 hover:bg-blue-900/80"
+                : "bg-white/80 hover:bg-blue-100/80"
             }`}
         >
           <span className="text-2xl mb-2">💻</span>
-          <span className="font-bold text-lg mb-1">Code Editor</span>
+          <span className="font-bold text-lg mb-1">Problems</span>
           <span className="text-sm text-center">
-            Solve problems in a powerful, VS Code-like editor.
+            Solve problems in a powerful editor.
           </span>
         </Link>
         <Link
@@ -64,8 +77,8 @@ const Home = () => {
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
             ${
               theme === "dark"
-                ? "bg-gray-800 hover:bg-blue-900"
-                : "bg-white hover:bg-blue-100"
+                ? "bg-gray-800/80 hover:bg-blue-900/80"
+                : "bg-white/80 hover:bg-blue-100/80"
             }`}
         >
           <span className="text-2xl mb-2">🗣️</span>
@@ -79,8 +92,8 @@ const Home = () => {
           className={`rounded-lg shadow-lg p-6 flex flex-col items-center transition
             ${
               theme === "dark"
-                ? "bg-gray-800 hover:bg-blue-900"
-                : "bg-white hover:bg-blue-100"
+                ? "bg-gray-800/80 hover:bg-blue-900/80"
+                : "bg-white/80 hover:bg-blue-100/80"
             }`}
         >
           <span className="text-2xl mb-2">👤</span>
@@ -95,8 +108,8 @@ const Home = () => {
         className={`mt-12 w-full max-w-3xl rounded-xl shadow-lg p-8 transition
           ${
             theme === "dark"
-              ? "bg-gray-800 text-white"
-              : "bg-white text-gray-900"
+              ? "bg-gray-800/80 text-white"
+              : "bg-white/80 text-gray-900"
           }`}
       >
         <div className="flex items-center mb-4">
@@ -116,8 +129,8 @@ const Home = () => {
               className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium shadow transition
                 ${
                   theme === "dark"
-                    ? "bg-blue-900 hover:bg-blue-800 text-white"
-                    : "bg-blue-100 hover:bg-blue-200 text-blue-900"
+                    ? "bg-blue-900/80 hover:bg-blue-800/80 text-white"
+                    : "bg-blue-100/80 hover:bg-blue-200/80 text-blue-900"
                 }`}
             >
               <span className="text-xl">{contest.icon}</span>

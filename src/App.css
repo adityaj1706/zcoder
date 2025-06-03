@@ -72,4 +72,66 @@ body {
     transform: rotate(360deg);
   }
 }
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
 
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 16ch;
+  }
+}
+
+@keyframes hide-cursor {
+  to {
+    border-right: none;
+  }
+}
+
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid #3498db;
+  width: 0;
+  animation: typing 1.5s steps(16, end) forwards,
+    hide-cursor 0.01s step-end 1.5s forwards;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+/* Nebula background */
+.code-galaxy-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at 20% 30%, #7f9cf5 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, #f472b6 0%, transparent 70%),
+    radial-gradient(ellipse at 60% 20%, #34d399 0%, transparent 80%),
+    linear-gradient(120deg, #f3f4f6 0%, #a5b4fc 100%);
+  opacity: 0.5;
+  pointer-events: none;
+  transition: background 0.5s;
+}
+.dark .code-galaxy-bg {
+  background: radial-gradient(ellipse at 20% 30%, #7f9cf5 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, #f472b6 0%, transparent 70%),
+    radial-gradient(ellipse at 60% 20%, #34d399 0%, transparent 80%),
+    linear-gradient(120deg, #18181b 0%, #312e81 100%);
+  opacity: 1;
+}
+.code-galaxy-snippet {
+  position: absolute;
+  color: #fff;
+  opacity: 0.4;
+  font-family: "Fira Mono", "Consolas", monospace;
+  font-size: 1.2rem;
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+  filter: blur(0.5px);
+  z-index: 0;
+}

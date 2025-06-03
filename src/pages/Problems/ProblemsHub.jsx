@@ -164,19 +164,15 @@ export default function ProblemsHub() {
   return (
     <div
       className={`relative px-4 py-8 min-h-screen transition-colors duration-300 ${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        theme === "dark" ? "text-white" : "text-gray-900"
       }`}
+      style={{ position: "relative", zIndex: 1 }}
     >
       {/* Top right progress */}
-      <div className="absolute top-8 right-8 flex flex-col items-center bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 z-10 w-64">
+      <div className="absolute top-8 right-8 flex flex-col items-center bg-white/80 dark:bg-gray-900/80 rounded-xl shadow-lg p-6 z-10 w-64">
         <div className="text-lg font-bold mb-2">Progress</div>
         <div className="relative w-40 h-40 mb-2 flex items-center justify-center">
-          <Pie
-            data={pieData}
-            options={pieOptions}
-            width={160}
-            height={160}
-          />
+          <Pie data={pieData} options={pieOptions} width={160} height={160} />
           {/* Center text */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
@@ -207,7 +203,18 @@ export default function ProblemsHub() {
         </div>
       </div>
 
-      <h1 className="center-heading mb-8">🧠 Problems Hub</h1>
+      <div className="flex justify-center mb-8">
+        <h1
+          className="text-4xl md:text-5xl font-extrabold drop-shadow"
+          style={{
+            fontFamily: "'Orbitron', sans-serif",
+            display: "inline-block",
+            verticalAlign: "middle",
+          }}
+        >
+          <span className="typing">🧠 Problems Hub</span>
+        </h1>
+      </div>
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="flex items-center gap-4 mb-4">
           <SearchFilterBar
