@@ -24,7 +24,7 @@ export default function Rooms() {
     { name: "Bob", avatar: "🦁" },
     { name: "Charlie", avatar: "🐼" },
   ]);
-  
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [muted, setMuted] = useState(false);
@@ -64,7 +64,6 @@ export default function Rooms() {
   useEffect(() => {
     const socket = io("http://localhost:3000");
     socket.on("chat message", (msg) => {
-      // Append new message to state
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
     return () => {
@@ -119,9 +118,10 @@ export default function Rooms() {
       <div
         className={`md:w-1/4 w-full border-b-2 md:border-b-0 md:border-r-2 p-6 flex flex-col ${
           theme === "dark"
-            ? "bg-gradient-to-br from-gray-950 to-gray-900 border-gray-800"
-            : "bg-gradient-to-br from-blue-100 to-blue-200 border-blue-200"
-        } rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none`}
+            ? "bg-gray-700/70 border-gray-800"
+            : "bg-white/70 border-blue-200"
+        } rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none backdrop-blur-md`}
+        style={{ backdropFilter: "blur(12px)" }}
       >
         <h3 className="text-lg font-bold mb-4 tracking-wide text-blue-900 dark:text-blue-300">
           Users in Room
@@ -140,7 +140,9 @@ export default function Rooms() {
         {/* Show problem topics if available */}
         {problem && problem.topics && (
           <div className="mb-6">
-            <h4 className="font-semibold mb-2 text-indigo-700 dark:text-indigo-300">Problem Topics</h4>
+            <h4 className="font-semibold mb-2 text-indigo-700 dark:text-indigo-300">
+              Problem Topics
+            </h4>
             <div className="flex flex-wrap gap-2">
               {problem.topics.map((topic, idx) => (
                 <span
@@ -188,7 +190,9 @@ export default function Rooms() {
             {/* Show problem title if available */}
             {problem && (
               <div className="text-sm opacity-80 mt-1">
-                <span className="font-semibold text-indigo-700 dark:text-indigo-300">Problem:</span>{" "}
+                <span className="font-semibold text-indigo-700 dark:text-indigo-300">
+                  Problem:
+                </span>{" "}
                 <span className="font-semibold">{problem.title}</span>
               </div>
             )}
@@ -199,17 +203,17 @@ export default function Rooms() {
         </div>
         {/* Chat Area */}
         <div
-          className="flex-1 overflow-y-auto mb-4 rounded-xl p-4 shadow-inner border-2 border-blue-100 dark:border-gray-800"
+          className="flex-1 overflow-y-auto mb-4 rounded-xl p-4 shadow-inner border-2 border-blue-100 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md"
           style={{
-            background: theme === "dark"
-              ? "linear-gradient(135deg, #23272e 60%, #1e293b 100%)"
-              : "linear-gradient(135deg, #f3f4f6 60%, #e0e7ff 100%)",
+            backdropFilter: "blur(10px)",
             minHeight: "200px",
             maxHeight: "300px",
           }}
         >
           {messages.length === 0 ? (
-            <div className="text-center text-gray-400 mt-10">No messages yet. Start the conversation!</div>
+            <div className="text-center text-gray-400 mt-10">
+              No messages yet. Start the conversation!
+            </div>
           ) : (
             messages.map((msg, idx) => (
               <div
