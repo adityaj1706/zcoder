@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# ZCoder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ZCoder is a collaborative coding platform designed for practicing coding problems, real-time collaboration, and community-driven learning. Users can solve problems in a powerful code editor, join interactive rooms for live discussions, track their progress, bookmark problems, and stay updated with upcoming programming contests—all in one place.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Features](#features)
+  - [Authentication & Profiles](#authentication--profiles)
+  - [Problems Hub](#problems-hub)
+  - [Code Editor](#code-editor)
+  - [Interactive Rooms](#interactive-rooms)
+  - [Chat](#chat)
+  - [Bookmarks & Progress Tracking](#bookmarks--progress-tracking)
+  - [Contest Calendar](#contest-calendar)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+### Authentication & Profiles
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Automatic Profile Creation:** Your profile is created on first login; complete your details in the profile section.
 
-### `npm run build`
+### Problems Hub
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Practice Problems:** Browse, search, and filter a curated set of coding problems by difficulty, tags, and status.
+- **Problem Details:** View rich problem descriptions, examples, constraints, and reveal official solutions.
+- **Progress Visualization:** See your solved/unsolved stats and progress breakdown by difficulty.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Code Editor
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **VS Code-like Editor:** Solve problems in a Monaco-powered editor with syntax highlighting and C++ support.
+- **Custom Input & Output:** Test your code with custom input and view output instantly.
+- **Run Code:** Secure server-side code execution for C++.
 
-### `npm run eject`
+### Interactive Rooms
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Real-Time Collaboration:** Join or create rooms to discuss and solve problems together.
+- **User List:** See who is in the room, with avatars.
+- **Problem Sharing:** Discuss specific problems in context.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Chat
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Room Chat:** Live chat in collaborative rooms.
+- **Notifications:** Mute/unmute notifications as needed.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Bookmarks & Progress Tracking
 
-## Learn More
+- **Bookmark Problems:** Save problems for later review.
+- **Mark as Solved:** Track which problems you’ve completed.
+- **Profile Stats:** View your progress and bookmarks in your profile.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Contest Calendar
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Upcoming Contests:** Stay updated with upcoming contests from LeetCode, Codeforces, AtCoder.
+- **Direct Links:** Access contest pages and details with one click.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Installation
 
-### Analyzing the Bundle Size
+To install and run ZCoder locally, follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. **Clone the repository:**
 
-### Making a Progressive Web App
+   ```bash
+   git clone https://github.com/adityaj1706/zcoder.git
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. **Install dependencies and start all services:**
+   ```bash
+   cd zcoder-app
+   npm install
+   npm run build
+   cd server
+   npm install
+   npm start
+   ```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Usage
 
-### Deployment
+- Open [http://localhost:3000](http://localhost:3000) in your browser.
+- Sign up to create your account.
+- Start solving problems.
+- Join or create rooms for collaborative problem-solving.
+- Use the Problems Hub to browse and filter problems.
+- Bookmark and mark problems as solved to track your progress.
+- Check the Contest Calendar for upcoming programming contests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are welcome! Please open issues or pull requests for bugs, features, or improvements.
+
+---
+
+**Happy Coding!**
