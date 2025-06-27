@@ -71,8 +71,14 @@ To install and run ZCoder locally, follow these steps:
    ```bash
    git clone https://github.com/adityaj1706/zcoder.git
    ```
+2. **Create a .env file in the server folder and paste the following code into it:**
+   ```bash
+   MONGO_URL=mongodb+srv://Sagnik:sagnik007@nodecoursecluster.k4nst4j.mongodb.net/Zcoder
+   RAPIDAPI_KEY=e837d006d3mshd57e026c4b37d16p1f38d5jsn46102bdf98e2
+   ```
 
-2. **Install dependencies and start all services:**
+
+3. **Install dependencies and start all services:**
    ```bash
    cd zcoder-app
    npm install
