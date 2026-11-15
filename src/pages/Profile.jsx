@@ -137,12 +137,8 @@ export default function Profile() {
           ${theme === "dark" ? " text-white" : " text-gray-900"}`}
       >
         <div
-          className={`rounded-xl p-8 w-full max-w-md border transition-colors duration-300
-          ${
-            theme === "dark"
-              ? "bg-[#1c1f26] text-white border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-              : "bg-white text-gray-900 border-gray-200 shadow-lg"
-          }`}
+          className={`glass-card fade-up p-8 w-full max-w-md mx-4
+          ${theme === "dark" ? "text-white" : "text-gray-900"}`}
         >
           {authMode === "login" ? (
             <>
@@ -191,12 +187,7 @@ export default function Profile() {
                 </div>
                 <button
                   type="submit"
-                  className={`w-full font-semibold py-3 rounded-lg mt-2 transition-all
-                  ${
-                    theme === "dark"
-                      ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
-                      : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"
-                  }`}
+                  className="btn-primary w-full mt-2"
                 >
                   Log In
                 </button>
@@ -267,12 +258,7 @@ export default function Profile() {
                 </div>
                 <button
                   type="submit"
-                  className={`w-full font-semibold py-3 rounded-lg mt-2 transition-all
-                  ${
-                    theme === "dark"
-                      ? "bg-blue-700 hover:bg-blue-800 text-white shadow hover:shadow-lg"
-                      : "bg-blue-600 hover:bg-blue-700 text-white shadow hover:shadow-md"
-                  }`}
+                  className="btn-primary w-full mt-2"
                 >
                   Sign Up
                 </button>
@@ -285,7 +271,7 @@ export default function Profile() {
   }
   return (
     <div
-      className={`max-w-5xl mx-auto mt-12 p-4 md:p-8 rounded-2xl shadow-2xl transition-colors duration-300 flex flex-col md:flex-row gap-10
+      className={`glass-card fade-up max-w-5xl mx-4 lg:mx-auto mt-12 p-4 md:p-8 transition-colors duration-300 flex flex-col md:flex-row gap-10
       ${theme === "dark" ? " text-white" : "text-gray-900"}`}
     >
       {/* Left Section: User & Progress */}
