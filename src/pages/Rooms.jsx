@@ -106,21 +106,15 @@ export default function Rooms() {
 
   return (
     <div
-      className={`flex flex-col md:flex-row max-w-5xl mx-auto mt-10 rounded-2xl shadow-2xl transition-colors duration-300 border-2 ${
-        theme === "dark"
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white border-gray-800"
-          : "bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-900 border-blue-200"
+      className={`glass-card fade-up flex flex-col md:flex-row max-w-5xl mx-4 lg:mx-auto mt-10 overflow-hidden ${
+        theme === "dark" ? "text-white" : "text-gray-900"
       }`}
       style={{ minHeight: "70vh" }}
     >
       {/* Sidebar */}
       <div
-        className={`md:w-1/4 w-full border-b-2 md:border-b-0 md:border-r-2 p-6 flex flex-col ${
-          theme === "dark"
-            ? "bg-gray-700/70 border-gray-800"
-            : "bg-white/70 border-blue-200"
-        } rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none backdrop-blur-md`}
-        style={{ backdropFilter: "blur(12px)" }}
+        className="md:w-1/4 w-full border-b md:border-b-0 md:border-r p-6 flex flex-col"
+        style={{ borderColor: "var(--border)" }}
       >
         <h3 className="text-lg font-bold mb-4 tracking-wide text-blue-900 dark:text-blue-300">
           Users in Room
@@ -202,7 +196,7 @@ export default function Rooms() {
         </div>
         {/* Chat Area */}
         <div
-          className="flex-1 overflow-y-auto mb-4 rounded-xl p-4 shadow-inner border-2 border-blue-100 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md"
+          className="flex-1 overflow-y-auto mb-4 rounded-xl p-4 shadow-inner border border-blue-200/60 dark:border-gray-700/60 bg-white/60 dark:bg-gray-950/50"
           style={{
             backdropFilter: "blur(10px)",
             minHeight: "200px",
@@ -245,7 +239,7 @@ export default function Rooms() {
             disabled={muted}
           />
           <button
-            className="bg-gradient-to-r from-blue-700 to-blue-900 text-white px-6 py-2 rounded-r-lg font-semibold shadow hover:from-blue-800 hover:to-blue-950 transition"
+            className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-6 py-2 rounded-r-lg font-semibold shadow hover:brightness-110 transition"
             onClick={handleSend}
             disabled={muted}
           >
