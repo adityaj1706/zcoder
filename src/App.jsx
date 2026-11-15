@@ -13,14 +13,39 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
+// Code symbols that drift up in the background
+const symbols = [
+  { text: "{ }", left: "6%", size: "1.6rem", duration: "26s", delay: "0s" },
+  { text: "</>", left: "18%", size: "1.2rem", duration: "32s", delay: "-8s" },
+  { text: "=>", left: "31%", size: "1.4rem", duration: "24s", delay: "-15s" },
+  { text: "O(n)", left: "45%", size: "1.1rem", duration: "30s", delay: "-4s" },
+  { text: "[ ]", left: "58%", size: "1.5rem", duration: "27s", delay: "-19s" },
+  { text: "&&", left: "70%", size: "1.2rem", duration: "34s", delay: "-11s" },
+  { text: "++", left: "82%", size: "1.4rem", duration: "25s", delay: "-2s" },
+  { text: "//", left: "93%", size: "1.3rem", duration: "29s", delay: "-22s" },
+];
+
+const getInitialTheme = () => {
+  try {
+    return localStorage.getItem("theme") === "light" ? "light" : "dark";
+  } catch (e) {
+    return "dark";
+  }
+};
+
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
+    }
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (e) {
+      // ignore storage errors
     }
   }, [theme]);
 
@@ -33,41 +58,26 @@ function App() {
           theme === "dark" ? "text-white" : "text-gray-900"
         }`}
       >
-        {/* Nebula background */}
-        <div className="code-galaxy-bg">
-          <div
-            className="code-galaxy-snippet"
-            style={{
-              top: "10%",
-              left: "4%",
-              fontSize: "1.1rem",
-              transform: "rotate(-7deg)",
-            }}
-          >
-            {`function greet() {\n  console.log("Hello, Galaxy!");\n}`}
-          </div>
-          <div
-            className="code-galaxy-snippet"
-            style={{
-              top: "60%",
-              left: "90%",
-              fontSize: "1.3rem",
-              transform: "rotate(12deg)",
-            }}
-          >
-            {`int x=10;`}
-          </div>
-          <div
-            className="code-galaxy-snippet"
-            style={{
-              top: "45%",
-              left: "40%",
-              fontSize: "1.5rem",
-              transform: "rotate(-3deg)",
-            }}
-          >
-            {`// Explore the code universe`}
-          </div>
+        {/* Animated background */}
+        <div className="zc-bg" aria-hidden="true">
+          <div className="zc-grid" />
+          <div className="zc-orb a" />
+          <div className="zc-orb b" />
+          <div className="zc-orb c" />
+          {symbols.map((s, i) => (
+            <span
+              key={i}
+              className="zc-sym"
+              style={{
+                left: s.left,
+                fontSize: s.size,
+                animationDuration: s.duration,
+                animationDelay: s.delay,
+              }}
+            >
+              {s.text}
+            </span>
+          ))}
         </div>
         <Router>
           <Navbar />
