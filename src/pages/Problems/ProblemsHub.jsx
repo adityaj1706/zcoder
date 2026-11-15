@@ -19,7 +19,7 @@ export default function ProblemsHub() {
   const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/problems")
+    fetch("/api/problems")
       .then((res) => res.json())
       .then((data) => {
         setAllProblems(data);
