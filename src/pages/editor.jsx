@@ -34,7 +34,7 @@ int main() {
 
   useEffect(() => {
     if (!problem && id) {
-      fetch(`http://localhost:3000/api/problems/${id}`)
+      fetch(`/api/problems/${id}`)
         .then((res) => res.json())
         .then((data) => setProblem(data));
     }
