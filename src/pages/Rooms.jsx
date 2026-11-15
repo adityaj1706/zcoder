@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../App";
 import { useParams, useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 export default function Rooms() {
   const { theme } = useTheme();
@@ -48,7 +47,7 @@ export default function Rooms() {
   // Fetch problem details when problemId changes
   useEffect(() => {
     if (problemId) {
-      fetch(`http://localhost:3000/api/problems/${problemId}`)
+      fetch(`/api/problems/${problemId}`)
         .then((res) => res.json())
         .then((data) => setProblem(data));
     }
@@ -60,16 +59,14 @@ export default function Rooms() {
     }
   }, [loggedInUser]);
 
-  // Set up Socket.IO client to listen for new chat messages
+  // Poll for new chat messages every few seconds.
+  // (Serverless hosting has no long-lived WebSocket connections, so we poll instead of Socket.IO.)
   useEffect(() => {
-    const socket = io("http://localhost:3000");
-    socket.on("chat message", (msg) => {
-      setMessages((prevMessages) => [...prevMessages, msg]);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+    if (!loggedInUser?.username) return;
+    const interval = setInterval(fetchChats, 3000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser?.username]);
 
   const handleSend = async () => {
     if (input.trim()) {
@@ -88,6 +85,8 @@ export default function Rooms() {
         });
         if (!response.ok) {
           alert("Error sending message");
+        } else {
+          fetchChats();
         }
       } catch (error) {
         console.error("Error sending message:", error);
