@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "../../App";
 import SearchFilterBar from "../../components/Problems/SearchFilterBar";
 import ProblemCard from "../../components/Problems/ProblemCard";
@@ -13,7 +13,6 @@ export default function ProblemsHub() {
   const [filteredProblems, setFilteredProblems] = useState([]);
   const [allProblems, setAllProblems] = useState([]);
   const [solvedProblems, setSolvedProblems] = useState([]);
-  const chartRef = useRef();
 
   const [filterType, setFilterType] = useState("");
   const [filterValue, setFilterValue] = useState("");
@@ -169,7 +168,7 @@ export default function ProblemsHub() {
       style={{ position: "relative", zIndex: 1 }}
     >
       {/* Top right progress */}
-      <div className="absolute top-8 right-8 flex flex-col items-center bg-white/80 dark:bg-gray-900/80 rounded-xl shadow-lg p-6 z-10 w-64">
+      <div className="glass-card fade-up mx-auto mb-8 xl:mb-0 xl:absolute xl:top-8 xl:right-8 flex flex-col items-center p-6 z-10 w-64">
         <div className="text-lg font-bold mb-2">Progress</div>
         <div className="relative w-40 h-40 mb-2 flex items-center justify-center">
           <Pie data={pieData} options={pieOptions} width={160} height={160} />
@@ -203,20 +202,16 @@ export default function ProblemsHub() {
         </div>
       </div>
 
-      <div className="flex justify-center mb-8">
-        <h1
-          className="text-4xl md:text-5xl font-extrabold drop-shadow"
-          style={{
-            fontFamily: "'Orbitron', sans-serif",
-            display: "inline-block",
-            verticalAlign: "middle",
-          }}
-        >
-          <span className="typing">🧠 Problems Hub</span>
+      <div className="text-center mb-8 fade-up">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          Problems <span className="gradient-text">Hub</span>
         </h1>
+        <p className="mt-2 text-sm text-muted font-mono">
+          {totalCount} problems · pick one and start coding
+        </p>
       </div>
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex flex-wrap items-center gap-3 mb-4 fade-up delay-1">
           <SearchFilterBar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -225,13 +220,7 @@ export default function ProblemsHub() {
           />
           <div className="relative flex gap-2">
             <select
-              className={`px-2 py-1 rounded border focus:outline-none
-    ${
-      theme === "dark"
-        ? "bg-gray-800 text-white border-gray-700"
-        : "bg-white text-gray-900 border-gray-300"
-    }
-  `}
+              className="field"
               value={filterType}
               onChange={(e) => {
                 setFilterType(e.target.value);
@@ -248,13 +237,7 @@ export default function ProblemsHub() {
             </select>
             {filterType === "difficulty" && (
               <select
-                className={`px-2 py-1 rounded border focus:outline-none
-    ${
-      theme === "dark"
-        ? "bg-gray-800 text-white border-gray-700"
-        : "bg-white text-gray-900 border-gray-300"
-    }
-  `}
+                className="field"
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
               >
@@ -266,13 +249,7 @@ export default function ProblemsHub() {
             )}
             {filterType === "tags" && (
               <select
-                className={`px-2 py-1 rounded border focus:outline-none
-    ${
-      theme === "dark"
-        ? "bg-gray-800 text-white border-gray-700"
-        : "bg-white text-gray-900 border-gray-300"
-    }
-  `}
+                className="field"
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
               >
@@ -289,6 +266,11 @@ export default function ProblemsHub() {
         {filteredProblems.map((problem) => (
           <ProblemCard key={problem.id} problem={problem} />
         ))}
+        {allProblems.length > 0 && filteredProblems.length === 0 && (
+          <div className="glass-card p-8 text-center text-muted">
+            No problems match your search.
+          </div>
+        )}
       </div>
     </div>
   );
