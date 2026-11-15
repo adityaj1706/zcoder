@@ -2,6 +2,8 @@
 
 ZCoder is a collaborative coding platform designed for practicing coding problems, real-time collaboration, and community-driven learning. Users can solve problems in a powerful code editor, join interactive rooms for live discussions, track their progress, bookmark problems, and stay updated with upcoming programming contests—all in one place.
 
+**Live demo:** [zcoder-black.vercel.app](https://zcoder-black.vercel.app)
+
 ---
 
 ## Table of Contents
@@ -15,6 +17,7 @@ ZCoder is a collaborative coding platform designed for practicing coding problem
   - [Bookmarks & Progress Tracking](#bookmarks--progress-tracking)
   - [Contest Calendar](#contest-calendar)
 - [Installation](#installation)
+- [Deployment](#deployment)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -71,10 +74,10 @@ To install and run ZCoder locally, follow these steps:
    ```bash
    git clone https://github.com/adityaj1706/zcoder.git
    ```
-2. **Create a .env file in the server folder and paste the following code into it:**
+2. **Create a .env file in the server folder and add your own values:**
    ```bash
-   MONGO_URL=mongodb+srv://Sagnik:sagnik007@nodecoursecluster.k4nst4j.mongodb.net/Zcoder
-   RAPIDAPI_KEY=e837d006d3mshd57e026c4b37d16p1f38d5jsn46102bdf98e2
+   MONGO_URL=<your MongoDB connection string>
+   RAPIDAPI_KEY=<your RapidAPI key>
    ```
 
 
@@ -87,6 +90,12 @@ To install and run ZCoder locally, follow these steps:
    npm install
    npm start
    ```
+
+---
+
+## Deployment
+
+The app is hosted on [Vercel](https://vercel.com): the React frontend is served as a static build and the Express API runs as a serverless function (`api/index.js`). Set `MONGO_URL` and `RAPIDAPI_KEY` as Environment Variables in the Vercel project settings. Every push to `main` redeploys the site.
 
 ---
 
