@@ -1,23 +1,21 @@
 import { Link } from "react-router-dom";
-import { useTheme } from "../../App";
 import React, { useEffect, useState } from "react";
 import { Bookmark, BookmarkCheck, CheckCircle } from "lucide-react";
 
 const getDifficultyColor = (difficulty) => {
   switch (difficulty) {
     case "Easy":
-      return "text-green-600";
+      return "text-emerald-400 bg-emerald-500/10 border-emerald-500/30";
     case "Medium":
-      return "text-yellow-500";
+      return "text-amber-400 bg-amber-500/10 border-amber-500/30";
     case "Hard":
-      return "text-red-600";
+      return "text-rose-400 bg-rose-500/10 border-rose-500/30";
     default:
-      return "text-gray-600";
+      return "text-gray-400 bg-gray-500/10 border-gray-500/30";
   }
 };
 
 const ProblemCard = ({ problem }) => {
-  const { theme } = useTheme();
   const [bookmarked, setBookmarked] = useState(false);
   const [solved, setSolved] = useState(false);
 
@@ -103,22 +101,19 @@ const ProblemCard = ({ problem }) => {
   };
 
   return (
-    <div
-      className={`p-4 rounded-2xl shadow hover:shadow-lg hover:ring-2 hover:ring-blue-500 hover:ring-opacity-30 transition duration-200 ease-in-out transform hover:scale-[1.01] mb-4 ${
-        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
-      }`}
-    >
-      <div className="flex items-start justify-between">
+    <div className="glass-card hover-lift fade-up p-4 md:p-5 mb-4">
+      <div className="flex items-start justify-between gap-3">
         <Link
           to={`/problems/${problem.id}`}
           state={{ problem }}
-          className="block hover:underline flex-1"
+          className="block flex-1 group"
         >
-          <h2 className="text-lg font-semibold flex items-center gap-2">
+          <h2 className="text-lg font-semibold flex flex-wrap items-center gap-2 transition-colors group-hover:text-indigo-400">
+            <span className="font-mono text-sm text-muted">#{problem.id}</span>
             {problem.title}
             {solved && (
-              <span className="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs font-semibold flex items-center gap-1">
-                <CheckCircle className="w-4 h-4" /> Solved
+              <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-semibold flex items-center gap-1">
+                <CheckCircle className="w-3.5 h-3.5" /> Solved
               </span>
             )}
           </h2>
@@ -126,26 +121,22 @@ const ProblemCard = ({ problem }) => {
         <div className="flex gap-2">
           <button
             onClick={toggleSolved}
-            className={`px-2 py-1 rounded font-semibold flex items-center gap-1 ${
+            className={`p-2 rounded-lg border transition-colors ${
               solved
-                ? "bg-green-400 text-black"
-                : "bg-gray-300 text-gray-700"
-            } hover:bg-green-500`}
+                ? "bg-emerald-500 border-emerald-500 text-white"
+                : "border-gray-500/30 text-muted hover:border-emerald-400 hover:text-emerald-400"
+            }`}
             title={solved ? "Mark as unsolved" : "Mark as solved"}
           >
-            {solved ? (
-              <CheckCircle className="w-4 h-4" />
-            ) : (
-              <CheckCircle className="w-4 h-4 opacity-50" />
-            )}
+            <CheckCircle className="w-4 h-4" />
           </button>
           <button
             onClick={toggleBookmark}
-            className={`px-2 py-1 rounded font-semibold flex items-center gap-1 ${
+            className={`p-2 rounded-lg border transition-colors ${
               bookmarked
-                ? "bg-yellow-400 text-black"
-                : "bg-gray-300 text-gray-700"
-            } hover:bg-yellow-500`}
+                ? "bg-amber-400 border-amber-400 text-black"
+                : "border-gray-500/30 text-muted hover:border-amber-400 hover:text-amber-400"
+            }`}
             title={bookmarked ? "Remove Bookmark" : "Bookmark this problem"}
           >
             {bookmarked ? (
@@ -156,23 +147,21 @@ const ProblemCard = ({ problem }) => {
           </button>
         </div>
       </div>
-      <p className={`text-sm font-semibold mt-1 ${getDifficultyColor(problem.difficulty)}`}>
-        {problem.difficulty}
-      </p>
-      {problem.tags && problem.tags.length > 0 && (
-        <div className="flex gap-2 mt-3 flex-wrap">
-          {problem.tags.map((tag, i) => (
-            <span
-              key={i}
-              className={`px-3 py-1 rounded-full text-sm font-medium hover:shadow-lg hover:ring-2 ${
-                theme === "dark" ? "bg-blue-900 text-gray-100" : "bg-gray-200 text-gray-800"
-              }`}
-            >
+      <div className="flex gap-2 mt-3 flex-wrap items-center">
+        <span
+          className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getDifficultyColor(
+            problem.difficulty
+          )}`}
+        >
+          {problem.difficulty}
+        </span>
+        {problem.tags &&
+          problem.tags.map((tag, i) => (
+            <span key={i} className="chip">
               {tag}
             </span>
           ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
